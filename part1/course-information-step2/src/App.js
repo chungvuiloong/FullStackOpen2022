@@ -1,7 +1,8 @@
 import './App.css';
 import Header from './Components/Header/Header';
 import Total from './Components/Total/Total';
-import Content from './Components/Content/Content';
+// import Content from './Components/Content/Content';
+import Part from './Components/Part/Part';
 
 
 const App = () => {
@@ -18,10 +19,20 @@ const App = () => {
 
   const total = exercises1 + exercises2 + exercises3;
 
+  const Content = () => {
+    return(
+      <div>
+        <Part part={part1} exercises={exercises1}/>
+        <Part part={part2} exercises={exercises2}/>
+        <Part part={part3} exercises={exercises3}/>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header course={course}/>
-      <Content part={part1} exercise={exercises1}/>
+      <Content />
       <Total total={total} />
     </div>
   )

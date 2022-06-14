@@ -1,12 +1,22 @@
 import React from 'react';
-import Part from "./Part/Part";
+import Part from "../Part/Part";
 
-const Content = (props) => {
+const Content = () => {
+    
+const part1 = 'Fundamentals of React';
+  const exercises1 = 10;
+
+  const part2 = 'Using props to pass data';
+  const exercises2 = 7;
+
+  const part3 = 'State of a component';
+  const exercises3 = 14;
+
     return (
         <p>
-            <Part part={props.part1} exercise={props.exercise1} />
-            <Part part={props.part2} exercise={props.exercise2} />
-            <Part part={props.part3} exercise={props.exercise3} />
+            <Part part={part1} exercise={exercises1} />
+            <Part part={part2} exercise={exercises2} />
+            <Part part={part3} exercise={exercises3} />
         </p>
     );
 };

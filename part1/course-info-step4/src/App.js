@@ -1,7 +1,6 @@
 import './App.css';
 import Header from './Components/Header/Header';
 import Total from './Components/Total/Total';
-// import Content from './Components/Content/Content';
 import Part from './Components/Part/Part';
 
 const App = () => {
@@ -21,25 +20,22 @@ const App = () => {
     }
   ]
 
-  console.log(parts[0].name);
-
-  const total = parts[0].exercises + parts[1].exercises + parts[2].exercises;
-
-  const Content = () => {
+  const Content = (props) => {
     return(
       <div>
-        {/* <Part part={part1.name} exercises={part1.exercises}/> */}
-        {/* <Part part={part2.name} exercises={part2.exercises}/>
-        <Part part={part3.name} exercises={part3.exercises}/> */}
+        <Part key={parts.name} parts={parts}/>
       </div>
     )
   }
 
   return (
     <div>
-      <Header course={course}/>
-      {/* <Content /> */}
-      <Total total={total} />
+      <Header course={course} />
+
+      {/* <Part parts={parts}/> */}
+
+      <Content parts={parts}/>
+      <Total parts={parts} />
     </div>
   )
 }

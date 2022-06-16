@@ -1,26 +1,53 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import Statistics from "./Components/Statistics/Statistics";
+import Feedback from "./Components/Feedback/Feedback";
+import Button from "./Components/Button/Button";
+
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  let [ good, setGood ] = useState(0);
+  let [ neutral, setNeutral ] = useState(0);
+  let [ bad, setBad ] = useState(0);
+  let [ star, setStar ] = useState(0);
 
-  // good
-  // neutral
+  let total = good + bad + neutral;
+  let average = star / total;
+  let positivePercent = (good / total) * 100;
+
+  // Good
+  function goodHandler () {
+    setStar(star + 1);
+    setGood(good + 1);
+  }
+
+  // Neutral
+  function neutralHandler () {
+    setNeutral(neutral + 1);
+  }
+
   // bad
-  // the total number of collected feedback
-  // the average score (good: 1, neutral: 0, bad: -1) and 
-  // the percentage of positive feedback.
-
-  const total = good + bad + neutral;
+  function badHandler () {
+    setStar(star - 1);
+    setBad(bad + 1);
+  }
 
   return (
     <div>
-      code here
-      <div>
-        The total is {total}
-      </div>
+      <Feedback />
+      <Button type="button" onClick={goodHandler} text="Good"/>
+      <Button type="button" onClick={neutralHandler} text="Neutral"/>
+      <Button type="button" onClick={badHandler} text="Bad"/>
+
+      <Statistics
+          good={good}
+          neutral={neutral}  
+          bad={bad}
+          star={star}
+          total={total}
+          average={average}
+          positive={positivePercent}
+      />
+
     </div>
   )
 }

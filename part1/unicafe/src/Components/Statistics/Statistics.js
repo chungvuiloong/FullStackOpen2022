@@ -18,7 +18,6 @@ const Statistics = ({ good, neutral, bad, total, average, positive }) => {
                         <StatisticLine text="positive%" value={positive} />
                     </>
             }
-            
         </section>
     );
 };

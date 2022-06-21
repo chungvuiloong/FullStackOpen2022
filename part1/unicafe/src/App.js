@@ -5,12 +5,12 @@ import Button from "./Components/Button/Button";
 
 
 const App = () => {
-  let [ good, setGood ] = useState(0);
-  let [ neutral, setNeutral ] = useState(0);
-  let [ bad, setBad ] = useState(0);
-  let [ star, setStar ] = useState(0);
+  let [ good,     setGood ]     = useState(0);
+  let [ neutral,  setNeutral ]  = useState(0);
+  let [ bad,      setBad ]      = useState(0);
+  let [ star,     setStar ]     = useState(0);
 
-  let total = good + bad + neutral;
+  let total   = good + bad + neutral;
   let average = star / total;
   let positivePercent = (good / total) * 100;
 

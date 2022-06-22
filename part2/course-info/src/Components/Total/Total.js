@@ -1,15 +1,11 @@
 import React from 'react';
 
-const Total = (props) => {
-    // console.log(props.part);
-    // console.log(props.part.parts[0].exercises);
-
-    const result = props.part.parts[0].exercises + props.part.parts[1].exercises + props.part.parts[2].exercises;
+const Total = ({ total }) => {
 
     return (
-        <div>
-         Number of exercises {result}
-        </div>
+        <h4>
+         total of {total} exercises
+        </h4>
     );
 };
 

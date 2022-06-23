@@ -3,14 +3,16 @@ import { useState } from 'react'
  
 
 
-const App = ( props ) => {
-  const [notes, setNotes] = useState(props.notes)
+const App = ( {notes} ) => {
+
+  const [notesList, setNotes] = useState(notes)
   const [newNote, setNewNote] = useState(
-    'a new note...'
+    ''
   ) 
 
   const addNote = (event) => {
     event.preventDefault()
+
     const noteObject = {
       content: newNote,
       date: new Date().toISOString(),
@@ -22,6 +24,7 @@ const App = ( props ) => {
     setNewNote('')
   }
 
+  // let typing more than a letter
   const handleNoteChange = (event) => {
     console.log(event.target.value)
     setNewNote(event.target.value)
@@ -31,19 +34,18 @@ const App = ( props ) => {
     <div>
       <h1>Notes</h1>
       <ul>
-        {notes.map(note => 
+        {notesList.map(note => 
           <Note key={note.id} note={note} />
         )}
       </ul>
 
       <form onSubmit={addNote}>
-      <input 
-        value={newNote} // placeholder
-        onChange={handleNoteChange}
-        />
+        <input
+          value={newNote} // placeholder
+          onChange={handleNoteChange}
+          />
         <button type="submit">save</button>
-      </form>  
-
+      </form>
     </div>
   )
 }

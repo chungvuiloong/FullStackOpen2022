@@ -11,15 +11,6 @@ const Button = (props) => {
 }
 
 const App = () => {
-  // anecdotes[selected] || anecdote[0]
-  const [anecVote, setAnecVote] = useState([
-    // {
-    //   anec: "",
-    //   vote: 0
-    // }
-  ]);
-
-
   const anecdotes = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',

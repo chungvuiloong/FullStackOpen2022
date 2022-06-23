@@ -12,6 +12,8 @@ const App = () => {
 
   const changeHandler = (e) => {
     e.preventDefault();
+
+   
     const name = e.target.name;
     const value = e.target.value;
 
@@ -21,8 +23,16 @@ const App = () => {
   }
 
   const addPerson = (e) => {
+    const copyPersons = [...persons];
+
+    const name = e.target.name;
+    const value = e.target.value;
+
+
+
     e.preventDefault()
     console.log('button clicked', e.target)
+    setPersons(...copyPersons,{ [name]: value })
     console.log(persons);
   }
 

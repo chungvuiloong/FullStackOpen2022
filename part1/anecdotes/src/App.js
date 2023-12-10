@@ -24,9 +24,17 @@ const [votes, setVotes] = useState([0,0,0,0,0,0,0])
 
 const nextAnect = () => {
     if (selected < 6) {
-      setSelected(selected + 1)
+        setSelected(selected + 1)
     } else {
         reset()
+    }
+}
+
+const prevAnect = () => {
+    if (selected  === 0) {
+      setSelected(anecdotes.length)
+    } else {
+        setSelected(selected - 1)
     }
 }
 
@@ -51,6 +59,7 @@ const voteHandler = () => {
         {anecdotes[selected]}
         <p>has {votes[selected]} votes</p>
         <div>
+            <Button onClick={prevAnect} text="Previous Anecdote" />
             <Button onClick={voteHandler} text="Vote"/>
             <Button onClick={nextAnect} text="Next anecdote"/>
         </div>

@@ -22,12 +22,14 @@ const App = () => {
   ];
   
   const [selected, setSelected] = useState(0);
-  const [votes, setVotes] = useState([0,0,0,0,0,0])
+  const [votes, setVotes] = useState([0,0,0,0,0,0,0])
 
   const nextAnect = () => {
     if (selected < 6) {
       setSelected(selected + 1)
-    } else {reset()}
+    } else {
+        reset()
+    }
 
   }
 
@@ -50,15 +52,15 @@ const App = () => {
   
   return (
     <div>
-      <h1>Anecdotes of the day</h1>
-      {anecdotes[selected]}
-      <p>has {votes[selected]} votes</p>
-      <div>
-        <Button onClick={voteHandler} text="Vote"/>
-        <Button onClick={nextAnect} text="Next anecdote"/>
-      </div>
+        <h1>Anecdotes of the day</h1>
+        {anecdotes[selected]}
+        <p>has {votes[selected]} votes</p>
+        <div>
+            <Button onClick={voteHandler} text="Vote"/>
+            <Button onClick={nextAnect} text="Next anecdote"/>
+        </div>
       { 
-        Math.max(...votes) == 0 ? <h1></h1>
+        Math.max(...votes) === 0 ? <h1></h1>
         : <>
             <h1>Anecdotes with most votes</h1>
             <div>{anecdotes[votes.indexOf(Math.max(...votes))]}</div>

@@ -9,7 +9,7 @@ const App = () => {
   ]) 
 
   const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState()
+  const [newNumber, setNewNumber] = useState("")
   const [searchName, setSearchName] = useState("")
 
   const nameChangeHandler = (e) => {
@@ -38,6 +38,8 @@ const App = () => {
       id: persons.length + 1
     };
     setPersons([...persons, newPerson])
+    setNewName("")
+    setNewNumber("")
   }
 
   const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
@@ -53,14 +55,14 @@ const App = () => {
         <div>name:    
           <input type="text" 
             name="name"
-            value={persons.name}
+            value={newName}
             onChange={nameChangeHandler} />
         </div>
 
         <div>number:  
           <input type="text" 
             name="number"
-            value={persons.number}
+            value={newNumber}
             onChange={numberChangeHandler} />
         </div>
 

@@ -9,23 +9,28 @@ const App = () => {
   ]) 
 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState()
 
-  const changeHandler = (e) => {
+  const nameChangeHandler = (e) => {
     e.preventDefault();
-
-    // const name = e.target.name;
     const value = e.target.value;
-
     setNewName(value)
-    // console.log(value);
-    console.log(newName);
   }
+
+  const numberChangeHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setNewNumber(value)
+    console.log(newNumber);
+  }
+
+
 
   const addPerson = (e) => {
     e.preventDefault()
     const newPerson = {
       name: newName,
-      number: '',
+      number: newNumber,
       id: persons.length + 1
     };
     setPersons([...persons, newPerson])
@@ -41,15 +46,15 @@ const App = () => {
           <input type="text" 
             name="name"
             value={persons.name}
-            onChange={changeHandler} />
+            onChange={nameChangeHandler} />
         </div>
 
-        {/* <div>number:  
+        <div>number:  
           <input type="text" 
             name="number"
             value={persons.number}
-            onChange={changeHandler} />
-        </div> */}
+            onChange={numberChangeHandler} />
+        </div>
 
         <div><button type="submit" >add</button></div>
       </form>

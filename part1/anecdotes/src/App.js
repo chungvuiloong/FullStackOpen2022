@@ -32,7 +32,7 @@ const nextAnect = () => {
 
 const prevAnect = () => {
     if (selected  === 0) {
-      setSelected(anecdotes.length)
+      setSelected(anecdotes.length - 1)
     } else {
         setSelected(selected - 1)
     }

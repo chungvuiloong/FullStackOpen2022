@@ -21,7 +21,6 @@ const App = () => {
     e.preventDefault();
     const value = e.target.value;
     setNewNumber(value)
-    console.log(newNumber);
   }
 
 

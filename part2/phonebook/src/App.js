@@ -38,6 +38,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <p>Filter list with the name: <input /></p>
 
       {/* Form */}
       <h3>Add a new person & number</h3>

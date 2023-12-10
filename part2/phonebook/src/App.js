@@ -8,32 +8,27 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ]) 
 
-  const [newName, setNewName] = useState('a new person')
+  const [newName, setNewName] = useState('')
 
   const changeHandler = (e) => {
     e.preventDefault();
 
-   
-    const name = e.target.name;
+    // const name = e.target.name;
     const value = e.target.value;
 
-    setNewName(() => ({ [name]: value }))
+    setNewName(value)
     // console.log(value);
     console.log(newName);
   }
 
   const addPerson = (e) => {
-    const copyPersons = [...persons];
-
-    const name = e.target.name;
-    const value = e.target.value;
-
-
-
     e.preventDefault()
-    console.log('button clicked', e.target)
-    setPersons(...copyPersons,{ [name]: value })
-    console.log(persons);
+    const newPerson = {
+      name: newName,
+      number: '',
+      id: persons.length + 1
+    };
+    setPersons([...persons, newPerson])
   }
 
   return (
@@ -49,12 +44,12 @@ const App = () => {
             onChange={changeHandler} />
         </div>
 
-        <div>number:  
+        {/* <div>number:  
           <input type="text" 
             name="number"
             value={persons.number}
             onChange={changeHandler} />
-        </div>
+        </div> */}
 
         <div><button type="submit" >add</button></div>
       </form>

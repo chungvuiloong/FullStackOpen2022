@@ -41,7 +41,7 @@ const App = () => {
     setPersons([...persons, newPerson])
   }
 
-  const filteredName = persons.filter(person => person.name.includes("Arto"))
+  const filteredName = persons.filter(person => person.name.includes(searchName))
 
   return (
     <div>
@@ -70,7 +70,7 @@ const App = () => {
 
       <h2>Numbers</h2>
       <div>
-        {persons.map((person)=> 
+        {filteredName.map((person)=> 
         <div key={person.id}>{person.name} {person.number}
         </div>
         )}

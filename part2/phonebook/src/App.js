@@ -10,6 +10,7 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState()
+  const [searchName, setSearchName] = useState("")
 
   const nameChangeHandler = (e) => {
     e.preventDefault();

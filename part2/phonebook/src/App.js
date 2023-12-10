@@ -41,6 +41,8 @@ const App = () => {
     setPersons([...persons, newPerson])
   }
 
+  const filteredName = persons.filter(person => person.name.includes("Arto"))
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -67,9 +69,11 @@ const App = () => {
       </form>
 
       <h2>Numbers</h2>
-      <div>{persons.map((person)=> 
+      <div>
+        {persons.map((person)=> 
         <div key={person.id}>{person.name} {person.number}
-        </div>)}
+        </div>
+        )}
       </div>
     </div>
   )

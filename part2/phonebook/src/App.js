@@ -40,6 +40,7 @@ const App = () => {
       <h2>Phonebook</h2>
 
       {/* Form */}
+      <h3>Add a new oerson & number</h3>
       <form onSubmit={addPerson}>
         <div>name:    
           <input type="text" 

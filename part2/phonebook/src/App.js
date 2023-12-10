@@ -24,7 +24,12 @@ const App = () => {
     setNewNumber(value)
   }
 
-
+  const searchNameHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setSearchName(value)
+    console.log(searchName);
+  }
 
   const addPerson = (e) => {
     e.preventDefault()
@@ -39,7 +44,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <p>Filter list with the name: <input /></p>
+      <p>Filter list with the name: <input onChange={searchNameHandler} /></p>
 
       {/* Form */}
       <h3>Add a new person & number</h3>

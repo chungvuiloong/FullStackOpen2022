@@ -50,7 +50,7 @@ const App = () => {
       <p>Filter list with the name: <input onChange={searchNameHandler} /></p>
 
       {/* Form */}
-      <h3>Add a new person & number</h3>
+      <h2>Add a new person & number</h2>
       <form onSubmit={addPerson}>
         <div>name:    
           <input type="text" 

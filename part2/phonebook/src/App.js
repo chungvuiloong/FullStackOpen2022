@@ -28,7 +28,6 @@ const App = () => {
     e.preventDefault();
     const value = e.target.value;
     setSearchName(value)
-    console.log(searchName);
   }
 
   const addPerson = (e) => {
@@ -41,7 +40,7 @@ const App = () => {
     setPersons([...persons, newPerson])
   }
 
-  const filteredName = persons.filter(person => person.name.includes(searchName))
+  const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
   return (
     <div>

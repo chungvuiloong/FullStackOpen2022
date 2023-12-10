@@ -55,7 +55,7 @@ const voteHandler = () => {
             <Button onClick={nextAnect} text="Next anecdote"/>
         </div>
       { 
-        Math.max(...votes) === 0 ? <h1></h1>
+        Math.max(...votes) === 0 ? <h1>{""}</h1>
         : <>
             <h1>Anecdotes with most votes</h1>
             <div>{anecdotes[votes.indexOf(Math.max(...votes))]}</div>

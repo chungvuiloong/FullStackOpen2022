@@ -7,6 +7,9 @@ const App = ({ notes: newNotes }) => {
     const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
 
+    const label = note.important
+    ? 'make not important' : 'make important'
+
     useEffect(() => {
         console.log('effect')
         axios
@@ -41,23 +44,35 @@ const App = ({ notes: newNotes }) => {
     ? notes
     : notes.filter(note => note.important)
 
+
+
+  
+    const toggleImportanceOf = (id) => {
+      console.log('importance of ' + id + ' needs to be toggled')
+    }
+  
+
   return (
     <div>
-      <h1>Notes</h1>
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
-        </button>
-      </div>      
-      <ul>
-        {notesToShow.map(note => 
-          <Note key={note.id} note={note} />
-        )}
-      </ul>
+        <h1>Notes</h1>
+        <div>
+            <button onClick={() => setShowAll(!showAll)}>
+            show {showAll ? 'important' : 'all' }
+            </button>
+        </div>      
+        <ul>
+            {notesToShow.map(note => 
+                <Note 
+                    key={note.id} 
+                    note={note} 
+                    toggleImportance={() => toggleImportanceOf(note.id)}
+                />
+            )}
+        </ul>
       <form onSubmit={addNote}>
-      <input
-          value={newNote}
-          onChange={handleNoteChange}
+        <input
+            value={newNote}
+            onChange={handleNoteChange}
         />
         <button type="submit">save</button>
       </form> 

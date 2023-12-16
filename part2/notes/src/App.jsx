@@ -7,9 +7,6 @@ const App = ({ notes: newNotes }) => {
     const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
 
-    const label = note.important
-    ? 'make not important' : 'make important'
-
     useEffect(() => {
         console.log('effect')
         axios

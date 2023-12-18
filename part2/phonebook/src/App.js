@@ -16,7 +16,7 @@ const App = () => {
         .then(person => {
             setPersons(person)
         })
-    }, [])
+    }, [ ])
 
   const nameChangeHandler = (e) => {
     e.preventDefault();
@@ -38,14 +38,19 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
-    const newPerson = {
+    const newPersonData = {
       name: newName,
       number: newNumber,
       id: persons.length + 1
     };
-    setPersons([...persons, newPerson])
-    setNewName("")
-    setNewNumber("")
+    personServices
+        .createNewPerson(newPersonData)
+        .then(p => {
+            setPersons(persons.concat(p))
+            setNewName("")
+            setNewNumber("")
+            }
+        )
   }
 
   const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))

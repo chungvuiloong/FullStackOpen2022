@@ -64,7 +64,11 @@ const App = () => {
       <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
 
       <h2>Contacts</h2>
-      <Persons filteredName={filteredName} />
+      <Persons 
+            filteredName={filteredName} 
+            persons={persons} 
+            setPersons={setPersons}
+        />
     </div>
   )
 }

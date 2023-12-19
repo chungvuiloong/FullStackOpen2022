@@ -9,6 +9,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState("")
     const [searchName, setSearchName] = useState("")
+    const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
     useEffect(() => {
         personServices
@@ -53,7 +54,6 @@ const App = () => {
         )
   }
 
-  const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
   return (
     <div>

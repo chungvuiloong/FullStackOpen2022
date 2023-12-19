@@ -54,23 +54,31 @@ const App = () => {
         )
   }
 
+    const checkForSamePerson = (name = newName) => {
+        const check = persons.filter(p => (p.name.toLocaleLowerCase() === name.toLocaleLowerCase()))
+        if (check.length === 1) {
+            return true
+        } else {
+            return false;
+        }
+    }
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <Filter searchNameHandler={searchNameHandler}/>
-      
-      <h2>Add a new person & number</h2>
-      <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
+    return (
+        <div>
+        <h2>Phonebook</h2>
+        <Filter searchNameHandler={searchNameHandler}/>
+        
+        <h2>Add a new person & number</h2>
+        <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
 
-      <h2>Contacts</h2>
-      <Persons 
-            filteredName={filteredName} 
-            persons={persons} 
-            setPersons={setPersons}
-        />
-    </div>
-  )
+        <h2>Contacts</h2>
+        <Persons 
+                filteredName={filteredName} 
+                persons={persons} 
+                setPersons={setPersons}
+            />
+        </div>
+    )
 }
 
 export default App

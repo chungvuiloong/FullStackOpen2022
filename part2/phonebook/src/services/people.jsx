@@ -21,4 +21,4 @@ async function deletePersonId (personId) {
     return request.then(response => response.data)
 }
 
-export default { getAll, createNewPerson, updatePerson, deletePersonId }
+export { getAll, createNewPerson, updatePerson, deletePersonId }

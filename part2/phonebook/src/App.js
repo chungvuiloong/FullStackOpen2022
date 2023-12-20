@@ -3,12 +3,14 @@ import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
 import personServices from './services/people'
+import Notification from './components/Notification'
 
 const App = () => {
     const [persons, setPersons] = useState([]) 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState("")
     const [searchName, setSearchName] = useState("")
+    const [notification, setNotification] = useState(null)
     const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
     useEffect(() => {
@@ -68,7 +70,11 @@ const App = () => {
             personServices
                 .createNewPerson(newPersonData)
                 .then(p => {
+                    setNotification(`Added ${newPersonData.name}`, console.log(`Added ${newPersonData.name}`))
                     setPersons(persons.concat(p))
+                    setTimeout(() => {
+                        setNotification(null)
+                      }, 5000)
                     resetNameNumberInput()
                     }
                 )
@@ -83,19 +89,20 @@ const App = () => {
     }
 
     return (
-        <div>
-        <h2>Phonebook</h2>
-        <Filter searchNameHandler={searchNameHandler}/>
-        
-        <h2>Add a new person & number</h2>
-        <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
+        <div >
+            <h2 >Phonebook</h2>
+            <Filter searchNameHandler={searchNameHandler}/>
+            
+            <h2>Add a new person & number</h2>
+            <Notification message={notification} style={{ fontSize: '100px' }} />
+            <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
 
-        <h2>Contacts</h2>
-        <Persons 
-                filteredName={filteredName} 
-                persons={persons} 
-                setPersons={setPersons}
-            />
+            <h2>Contacts</h2>
+            <Persons 
+                    filteredName={filteredName} 
+                    persons={persons} 
+                    setPersons={setPersons}
+                />
         </div>
     )
 }

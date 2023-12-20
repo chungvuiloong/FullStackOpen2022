@@ -11,7 +11,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState("")
     const [searchName, setSearchName] = useState("")
     const [notification, setNotification] = useState(null)
-    const [errorMessage, setErrorMessage] = useState(null)
+    const [notificationType, setNotificationType] = useState(null)
     const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
     useEffect(() => {
@@ -39,6 +39,21 @@ const App = () => {
         setSearchName(value)
     }
 
+    const resetNameNumberInput = () => {
+        setNewName("")
+        setNewNumber("")
+    }
+
+    function notificationHandler(message, time, type) {
+        setNotificationType(type);
+        setNotification(message);
+        setTimeout(() => {
+            setNotification(null);
+            setNotificationType(null);
+        }, `${time}000`);
+        resetNameNumberInput();
+    }
+
     const addPerson = (e) => {
         e.preventDefault()
         const newPersonData = {
@@ -47,42 +62,28 @@ const App = () => {
         id: persons.length + 1
         };
 
-    const resetNameNumberInput = () => {
-        setNewName("")
-        setNewNumber("")
-    }
-
-    function notificationHandler(message, time) {
-        setNotification(message);
-        setTimeout(() => {
-            setNotification(null);
-        }, `${time}000`);
-        resetNameNumberInput();
-    }
-
-    if (checkForSamePerson()) {
-        if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
-            const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
-            updatePerson(findPersonId, {name: newName, number: newNumber})
-                .then(updatedPerson => {
-                        const updatedPersons = persons.map(person =>
-                            person.id === updatedPerson.id ? updatedPerson : person
-                        );
-                    notificationHandler(`Updated ${newName} number to ${newNumber}`, 5)
-                    setPersons(updatedPersons);
-                    resetNameNumberInput()
-                    }
-                )
-        }
-    } else {    
-            createNewPerson(newPersonData)
-                .then(p => {
-                    notificationHandler(`Added ${newPersonData.name}`, 5)
-                    setPersons(persons.concat(p))
-                    resetNameNumberInput()
-                    }
-                )
-        }
+        if (checkForSamePerson()) {
+            if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
+                const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
+                updatePerson(findPersonId, {name: newName, number: newNumber})
+                    .then(updatedPerson => {
+                            const updatedPersons = persons.map(person =>
+                                person.id === updatedPerson.id ? updatedPerson : person
+                            );
+                        notificationHandler(`Updated ${newName} number to ${newNumber}`, 5, 'successful')
+                        setPersons(updatedPersons);
+                        resetNameNumberInput()
+                        }
+                    )
+            }
+        } else {    
+                createNewPerson(newPersonData)
+                    .then(p => {
+                        notificationHandler(`Added ${newPersonData.name}`, 5, 'successful')
+                        setPersons(persons.concat(p))
+                        resetNameNumberInput()
+                        })
+            }
     }
 
     const checkForSamePerson = (name = newName) => {
@@ -96,11 +97,12 @@ const App = () => {
         const personIdtoRemove = persons.filter((p)=> p.id !== person?.id)
         const text = `Do you want to delete ${person.name}`
        if (window.confirm(text) === true) {
-            return deletePersonId(person?.id)
-                .then(setPersons(personIdtoRemove))
-                .catch(error => {
-                console.log('fail')
-              })
+            deletePersonId(person?.id)
+                .then(_=> {
+                    setPersons(personIdtoRemove)
+                    notificationHandler(`Deleted ${person.name}`, 5, 'successful')
+                })
+                .catch()
        }
     }
 

@@ -52,6 +52,14 @@ const App = () => {
         setNewNumber("")
     }
 
+    function notificationHandler(message, time) {
+        setNotification(message);
+        setTimeout(() => {
+            setNotification(null);
+        }, `${time}000`);
+        resetNameNumberInput();
+    }
+
     if (checkForSamePerson()) {
         if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
             const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
@@ -68,11 +76,8 @@ const App = () => {
     } else {    
             createNewPerson(newPersonData)
                 .then(p => {
-                    setNotification(`Added ${newPersonData.name}`)
+                    notificationHandler(`Added ${newPersonData.name}`, 5)
                     setPersons(persons.concat(p))
-                    setTimeout(() => {
-                        setNotification(null)
-                      }, 5000)
                     resetNameNumberInput()
                     }
                 )

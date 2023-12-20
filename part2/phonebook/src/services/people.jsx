@@ -12,7 +12,7 @@ async function createNewPerson (newPerson) {
 }
 
 async function updatePerson (currentPersonId, updatedNumber) {
-    const request = axios.post(`${baseUrl}/${currentPersonId}`, updatedNumber)
+    const request = axios.put(`${baseUrl}/${currentPersonId}`, updatedNumber)
     return request.then(response => response.data)
 }
 

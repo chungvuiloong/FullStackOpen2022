@@ -46,8 +46,10 @@ const App = () => {
     };
 
     if (checkForSamePerson()) {
-        window.confirm(`${newPersonData?.name} is already in the phonebook. Updated the existing phone number?`)
-        } else {    
+        if ( window.confirm(`${newPersonData?.name} is already in the phonebook. Updated the existing phone number?`)=== true) {
+
+        }
+    } else {    
             personServices
                 .createNewPerson(newPersonData)
                 .then(p => {

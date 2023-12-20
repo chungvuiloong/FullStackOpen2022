@@ -45,6 +45,10 @@ const App = () => {
         id: persons.length + 1
         };
 
+    const resetNameNumberInput = () => {
+        setNewName("")
+        setNewNumber("")
+    }
 
     if (checkForSamePerson()) {
         if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
@@ -56,8 +60,7 @@ const App = () => {
                             person.id === updatedPerson.id ? updatedPerson : person
                         );
                     setPersons(updatedPersons);
-                    setNewName("")
-                    setNewNumber("")
+                    resetNameNumberInput()
                     }
                 )
         }
@@ -66,8 +69,7 @@ const App = () => {
                 .createNewPerson(newPersonData)
                 .then(p => {
                     setPersons(persons.concat(p))
-                    setNewName("")
-                    setNewNumber("")
+                    resetNameNumberInput()
                     }
                 )
         }

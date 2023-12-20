@@ -68,6 +68,7 @@ const App = () => {
                         const updatedPersons = persons.map(person =>
                             person.id === updatedPerson.id ? updatedPerson : person
                         );
+                    notificationHandler(`Updated ${newName} number to ${newNumber}`, 5)
                     setPersons(updatedPersons);
                     resetNameNumberInput()
                     }

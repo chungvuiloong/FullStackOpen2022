@@ -45,9 +45,12 @@ const App = () => {
       id: persons.length + 1
     };
 
-    if (checkForSamePerson()) {
-        if ( window.confirm(`${newPersonData?.name} is already in the phonebook. Updated the existing phone number?`)=== true) {
 
+    if (checkForSamePerson()) {
+        if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
+            const findPerson = persons.find(p => p.name === newPersonData?.name)
+            personServices
+                .updatePerson(findPerson.id, {name: newName, number: newNumber})
         }
     } else {    
             personServices

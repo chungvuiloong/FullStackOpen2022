@@ -75,6 +75,9 @@ const App = () => {
                         resetNameNumberInput()
                         }
                     )
+                    .catch(_=> {
+                        notificationHandler(`The new number wasn't updated`, 5, 'error')
+                    })
             }
         } else {    
                 createNewPerson(newPersonData)

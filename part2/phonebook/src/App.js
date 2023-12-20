@@ -11,6 +11,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState("")
     const [searchName, setSearchName] = useState("")
     const [notification, setNotification] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
     const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
     useEffect(() => {

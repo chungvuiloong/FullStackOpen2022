@@ -85,6 +85,15 @@ const App = () => {
         } 
     }
 
+    const successful = {         
+        fontSize: '25px', 
+        position: 'absolute', 
+        top: 0, 
+        right: 0, 
+        border: '2px solid green', 
+        backgroundColor: 'lightgreen'  
+    }
+
     return (
         <div style={{ position: 'relative'}}>
             <h2 >Phonebook</h2>
@@ -93,13 +102,7 @@ const App = () => {
             <h2>Add a new person & number</h2>
             {
                 notification ? 
-                    <Notification message={notification} style={{         
-                        fontSize: '25px', 
-                        position: 'absolute', 
-                        top: 0, 
-                        right: 0, 
-                        border: '2px solid green', 
-                        backgroundColor: 'lightgreen'  }} /> 
+                    <Notification message={notification} style={successful}/> 
                 : 
                     ""
             }

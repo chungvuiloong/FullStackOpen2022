@@ -61,7 +61,7 @@ const App = () => {
     }
 
     if (checkForSamePerson()) {
-        if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
+        if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
             const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
             updatePerson(findPersonId, {name: newName, number: newNumber})
                 .then(updatedPerson => {

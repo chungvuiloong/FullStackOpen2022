@@ -67,7 +67,7 @@ const App = () => {
     } else {    
             createNewPerson(newPersonData)
                 .then(p => {
-                    setNotification(`Added ${newPersonData.name}`, console.log(`Added ${newPersonData.name}`))
+                    setNotification(`Added ${newPersonData.name}`)
                     setPersons(persons.concat(p))
                     setTimeout(() => {
                         setNotification(null)

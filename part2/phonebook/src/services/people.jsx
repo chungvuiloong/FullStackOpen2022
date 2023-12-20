@@ -11,8 +11,8 @@ async function createNewPerson (newPerson) {
     return request.then(response => response.data)
 }
 
-async function updatePerson (currentPerson) {
-    const request = axios.post(`${baseUrl}/${currentPerson}`)
+async function updatePerson (currentPersonId, updatedNumber) {
+    const request = axios.post(`${baseUrl}/${currentPersonId}`, updatedNumber)
     return request.then(response => response.data)
 }
 

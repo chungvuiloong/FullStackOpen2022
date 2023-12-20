@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
-import personServices from './services/people'
+import { getAll, updatePerson, createNewPerson, deletePersonId } from './services/people'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -14,8 +14,7 @@ const App = () => {
     const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
 
     useEffect(() => {
-        personServices
-        .getAll()
+        getAll()
         .then(person => {
             setPersons(person)
         })
@@ -55,8 +54,7 @@ const App = () => {
     if (checkForSamePerson()) {
         if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
             const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
-            personServices
-                .updatePerson(findPersonId, {name: newName, number: newNumber})
+            updatePerson(findPersonId, {name: newName, number: newNumber})
                 .then(updatedPerson => {
                         const updatedPersons = persons.map(person =>
                             person.id === updatedPerson.id ? updatedPerson : person
@@ -67,8 +65,7 @@ const App = () => {
                 )
         }
     } else {    
-            personServices
-                .createNewPerson(newPersonData)
+            createNewPerson(newPersonData)
                 .then(p => {
                     setNotification(`Added ${newPersonData.name}`, console.log(`Added ${newPersonData.name}`))
                     setPersons(persons.concat(p))

@@ -1,5 +1,5 @@
 import React from 'react';
-import personServices from '../services/people'
+import { deletePersonId } from '../services/people'
 
 const Persons = ({ filteredName, persons, setPersons }) => {
 
@@ -7,7 +7,9 @@ const Persons = ({ filteredName, persons, setPersons }) => {
         const personIdtoRemove = persons.filter((p)=> p.id !== person?.id)
         const text = `Do you want to delete ${person.name}`
        if (window.confirm(text) === true) {
-            return personServices.deletePersonId(person?.id).then(setPersons(personIdtoRemove))
+            return deletePersonId(person?.id).then(setPersons(personIdtoRemove)).catch(error => {
+                console.log('fail')
+              })
        }
     }
 

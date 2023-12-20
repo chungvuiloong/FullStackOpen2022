@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
-import { getAll, updatePerson, createNewPerson, deletePersonId } from './services/people'
+import { getAll, updatePerson, createNewPerson } from './services/people'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -85,15 +85,6 @@ const App = () => {
         } 
     }
 
-    const successful = {         
-        fontSize: '25px', 
-        position: 'absolute', 
-        top: 0, 
-        right: 0, 
-        border: '2px solid green', 
-        backgroundColor: 'lightgreen'  
-    }
-
     return (
         <div style={{ position: 'relative'}}>
             <h2 >Phonebook</h2>
@@ -102,7 +93,7 @@ const App = () => {
             <h2>Add a new person & number</h2>
             {
                 notification ? 
-                    <Notification message={notification} style={successful}/> 
+                    <Notification message={notification} notificationType={'successful'}/> 
                 : 
                     ""
             }

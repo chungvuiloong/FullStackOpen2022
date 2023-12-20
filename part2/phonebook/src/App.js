@@ -44,23 +44,26 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1
     };
-    personServices
-        .createNewPerson(newPersonData)
-        .then(p => {
-            setPersons(persons.concat(p))
-            setNewName("")
-            setNewNumber("")
-            }
-        )
-  }
+
+    if (checkForSamePerson()) {
+        console.log("there is a person");
+        } else {    
+            personServices
+                .createNewPerson(newPersonData)
+                .then(p => {
+                    setPersons(persons.concat(p))
+                    setNewName("")
+                    setNewNumber("")
+                    }
+                )
+        }
+    }
 
     const checkForSamePerson = (name = newName) => {
         const check = persons.filter(p => (p.name.toLocaleLowerCase() === name.toLocaleLowerCase()))
         if (check.length === 1) {
             return true
-        } else {
-            return false;
-        }
+        } 
     }
 
     return (

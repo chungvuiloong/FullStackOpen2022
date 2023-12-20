@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Persons from './components/Persons'
-import { getAll, updatePerson, createNewPerson } from './services/people'
+import { getAll, updatePerson, createNewPerson, deletePersonId } from './services/people'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -92,6 +92,18 @@ const App = () => {
         } 
     }
 
+    const deletePerson = (person) => {
+        const personIdtoRemove = persons.filter((p)=> p.id !== person?.id)
+        const text = `Do you want to delete ${person.name}`
+       if (window.confirm(text) === true) {
+            return deletePersonId(person?.id)
+                .then(setPersons(personIdtoRemove))
+                .catch(error => {
+                console.log('fail')
+              })
+       }
+    }
+
     return (
         <div style={{ position: 'relative'}}>
             <h2 >Phonebook</h2>
@@ -109,8 +121,7 @@ const App = () => {
             <h2>Contacts</h2>
             <Persons 
                     filteredName={filteredName} 
-                    persons={persons} 
-                    setPersons={setPersons}
+                    deletePerson={deletePerson}
                 />
         </div>
     )

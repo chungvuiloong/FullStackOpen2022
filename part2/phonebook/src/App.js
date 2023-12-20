@@ -82,7 +82,10 @@ const App = () => {
                         notificationHandler(`Added ${newPersonData.name}`, 5, 'successful')
                         setPersons(persons.concat(p))
                         resetNameNumberInput()
-                        })
+                        })                
+                    .catch(_=> {
+                        notificationHandler(`New person wasn't created`, 5, 'error')
+                    })
             }
     }
 
@@ -102,7 +105,9 @@ const App = () => {
                     setPersons(personIdtoRemove)
                     notificationHandler(`Deleted ${person.name}`, 5, 'successful')
                 })
-                .catch()
+                .catch(_=> {
+                    notificationHandler(`Note: ${person.name} has already been removed`, 5, 'error')
+                })
        }
     }
 
@@ -114,7 +119,7 @@ const App = () => {
             <h2>Add a new person & number</h2>
             {
                 notification ? 
-                    <Notification message={notification} notificationType={'successful'}/> 
+                    <Notification message={notification} notificationType={notificationType}/> 
                 : 
                     ""
             }

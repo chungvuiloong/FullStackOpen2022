@@ -89,12 +89,23 @@ const App = () => {
     }
 
     return (
-        <div >
+        <div style={{ position: 'relative'}}>
             <h2 >Phonebook</h2>
             <Filter searchNameHandler={searchNameHandler}/>
             
             <h2>Add a new person & number</h2>
-            <Notification message={notification} style={{ fontSize: '100px' }} />
+            {
+                notification ? 
+                    <Notification message={notification} style={{         
+                        fontSize: '25px', 
+                        position: 'absolute', 
+                        top: 0, 
+                        right: 0, 
+                        border: '2px solid green', 
+                        backgroundColor: 'lightgreen'  }} /> 
+                : 
+                    ""
+            }
             <Form addPerson={addPerson} newName={newName} nameChangeHandler={nameChangeHandler} newNumber={newNumber} numberChangeHandler={numberChangeHandler} />
 
             <h2>Contacts</h2>

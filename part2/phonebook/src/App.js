@@ -17,40 +17,49 @@ const App = () => {
         .then(person => {
             setPersons(person)
         })
-    }, [ ])
+    }, [])
 
-  const nameChangeHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    setNewName(value)
-  }
+    const nameChangeHandler = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        setNewName(value)
+    }
 
-  const numberChangeHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    setNewNumber(value)
-  }
+    const numberChangeHandler = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        setNewNumber(value)
+    }
 
-  const searchNameHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    setSearchName(value)
-  }
+    const searchNameHandler = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        setSearchName(value)
+    }
 
-  const addPerson = (e) => {
-    e.preventDefault()
-    const newPersonData = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1
-    };
+    const addPerson = (e) => {
+        e.preventDefault()
+        const newPersonData = {
+        name: newName,
+        number: newNumber,
+        id: persons.length + 1
+        };
 
 
     if (checkForSamePerson()) {
         if ( window.confirm(`${newName?.name} is already in the phonebook. Updated the existing phone number?`) === true) {
-            const findPerson = persons.find(p => p.name === newPersonData?.name)
+            const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
             personServices
-                .updatePerson(findPerson.id, {name: newName, number: newNumber})
+                .updatePerson(findPersonId, {name: newName, number: newNumber})
+                .then(updatedPerson => {
+                        const updatedPersons = persons.map(person =>
+                            person.id === updatedPerson.id ? updatedPerson : person
+                        );
+                    setPersons(updatedPersons);
+                    setNewName("")
+                    setNewNumber("")
+                    }
+                )
         }
     } else {    
             personServices

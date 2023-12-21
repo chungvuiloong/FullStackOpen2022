@@ -23,15 +23,11 @@ function App() {
 
     const filteredCountries = countries.filter((country) =>country?.name?.common?.toLowerCase().includes(searchCountry?.toLowerCase())
       );
-
-      console.log(filteredCountries);
-
+      
   return (
     <>
         <Search searchHandler={searchHandler} />
-        {
-            countries && searchCountry ? <Country filteredCountries={filteredCountries} /> : ""
-        }
+        { countries && searchCountry ? <Country filteredCountries={filteredCountries} /> : "" }
     </>
   )
 }

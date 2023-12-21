@@ -29,7 +29,9 @@ function App() {
   return (
     <>
         <Search searchHandler={searchHandler} />
-        <Country filteredCountries={filteredCountries} />
+        {
+            countries && searchCountry ? <Country filteredCountries={filteredCountries} /> : ""
+        }
     </>
   )
 }

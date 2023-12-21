@@ -19,6 +19,7 @@ function App() {
         e.preventDefault();
         const value = e.target.value;
         setSearchCountry(value)
+        setCountryInfo("")
     }
 
     const filteredCountries = countries.filter((country) =>

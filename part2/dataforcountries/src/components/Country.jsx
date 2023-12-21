@@ -22,12 +22,6 @@ const Country = ({ filteredCountries }) => {
             {filteredCountries.length === 1 ? oneCountry(country) : manyCountries(country)}
         </div>)
 
-
-
-    // if (filteredCountries === 1 ) {
-
-    // }
-
     return (
         <div>
             { filteredCountries.length > 10 ? "There are too many matches, try another input" : filterCountriesDiv }

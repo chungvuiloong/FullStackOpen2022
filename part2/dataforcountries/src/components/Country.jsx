@@ -1,6 +1,15 @@
+import { useState } from "react";
+
+
 const Country = ({ filteredCountries }) => {
+    const [countryInfo, setCountryInfo] = useState()
+
+    function clickShow (country) {
+        return setCountryInfo(country)
+    }
+
     function manyCountries (countries) {
-        return <>{countries.name.common}{" "}<button>Show</button></>
+        return <>{countries.name.common}{" "}<button onClick={() => clickShow(countries)}>Show</button></>
     }    
     function oneCountry (country) {
         return (
@@ -34,7 +43,12 @@ const Country = ({ filteredCountries }) => {
 
     return (
         <div>
-            { filteredCountries.length > 10 ? "There are too many matches, try another input" : filterCountriesDiv }
+            <div>
+                { filteredCountries.length > 10 ? "There are too many matches, try another input" : filterCountriesDiv }
+            </div>
+            <div>
+                { countryInfo && filteredCountries.length > 1 ? oneCountry(countryInfo) : "" }
+            </div>
         </div>
     );
 };

@@ -20,6 +20,9 @@ const Country = ({ filteredCountries }) => {
                         }
                     </ul>
                 </div>
+                <div>
+                    <img src={Object.values(country?.flags)[0]} />
+                </div>
             </>
         )
     }

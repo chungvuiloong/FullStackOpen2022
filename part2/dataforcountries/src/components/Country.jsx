@@ -1,9 +1,7 @@
 import { useState } from "react";
 
 
-const Country = ({ filteredCountries }) => {
-    const [countryInfo, setCountryInfo] = useState()
-
+const Country = ({ filteredCountries, countryInfo, setCountryInfo }) => {
     function clickShow (country) {
         return setCountryInfo(country)
     }

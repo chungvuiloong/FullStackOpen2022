@@ -5,6 +5,7 @@ import Country from './components/Country';
 
 function App() {
     const [countries, setCountries] = useState([]);
+    const [countryInfo, setCountryInfo] = useState()
     const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {
@@ -18,16 +19,25 @@ function App() {
         e.preventDefault();
         const value = e.target.value;
         setSearchCountry(value)
-        console.log(value);
     }
 
-    const filteredCountries = countries.filter((country) =>country?.name?.common?.toLowerCase().includes(searchCountry?.toLowerCase())
-      );
-      
+    const filteredCountries = countries.filter((country) =>
+        country?.name?.common?.toLowerCase()
+            .includes(searchCountry?.toLowerCase())
+    );
+
   return (
     <>
         <Search searchHandler={searchHandler} />
-        { countries && searchCountry ? <Country filteredCountries={filteredCountries} /> : "" }
+        { 
+            countries && searchCountry ? 
+                <Country 
+                    filteredCountries={filteredCountries} 
+                    countryInfo={countryInfo} 
+                    setCountryInfo={setCountryInfo}
+                /> 
+            : "" 
+        }
     </>
   )
 }

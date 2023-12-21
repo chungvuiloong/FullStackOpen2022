@@ -1,6 +1,6 @@
 const Country = ({ filteredCountries }) => {
     function manyCountries (countries) {
-        return <>{countries.name.common}</>
+        return <>{countries.name.common}{" "}<button>Show</button></>
     }    
     function oneCountry (country) {
         return (

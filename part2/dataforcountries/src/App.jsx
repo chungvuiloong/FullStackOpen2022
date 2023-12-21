@@ -4,7 +4,7 @@ import Search from './components/Search';
 import Country from './components/Country';
 
 function App() {
-    const [countries, setCountries] = useState();
+    const [countries, setCountries] = useState([]);
     const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {

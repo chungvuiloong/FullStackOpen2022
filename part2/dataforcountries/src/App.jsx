@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getAllCountries } from './services/countryServices'
 import Search from './components/Search';
+import Country from './components/Country';
 
 function App() {
     const [countries, setCountries] = useState();
-    const [searchCountry, setSearchCountry] = useState();
+    const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {
         getAllCountries()
@@ -20,18 +21,15 @@ function App() {
         console.log(value);
     }
 
+    const filteredCountries = countries.filter((country) =>country?.name?.common?.toLowerCase().includes(searchCountry?.toLowerCase())
+      );
+
+      console.log(filteredCountries);
 
   return (
     <>
         <Search searchHandler={searchHandler} />
-        <div>
-            {
-                countries?.map((country, i) => 
-                    <div key={i}>
-                        {country.name.common}
-                    </div>
-            )}
-        </div>
+        <Country filteredCountries={filteredCountries} />
     </>
   )
 }

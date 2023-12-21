@@ -11,6 +11,13 @@ const Country = ({ filteredCountries }) => {
                 <div>
                     <div>Languages</div>
                     <ul>
+                        {
+                            Object.values(country?.languages).map((language, key) => (
+                                <li key={key}>
+                                    {language}
+                                </li>
+                            ))
+                        }
                     </ul>
                 </div>
             </>

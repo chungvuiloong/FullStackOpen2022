@@ -6,7 +6,7 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo }) => {
         return setCountryInfo(country)
     }
 
-    function manyCountries (countries) {
+    function showAllCountries (countries) {
         return <>{countries.name.common}{" "}<button onClick={() => clickShow(countries)}>Show</button></>
     }    
     function oneCountry (country) {
@@ -36,7 +36,7 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo }) => {
 
     const filterCountriesDiv = filteredCountries?.map((country,i) =>
         <div key={i}>
-            {filteredCountries.length === 1 ? oneCountry(country) : manyCountries(country)}
+            {filteredCountries.length === 1 ? oneCountry(country) : showAllCountries(country)}
         </div>)
 
     return (

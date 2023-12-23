@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react'
-import { getAllCountries, getCountryWeather } from './services/countryServices'
+import { getAllCountries } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
 
 function App() {
     const [countries, setCountries] = useState([]);
     const [countryInfo, setCountryInfo] = useState()
+    const [countryWeatherInfo, setCountryWeatherInfo] = useState()
     const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {
-        getCountryWeather() 
-            .then(countriesData => {
-                console.log(countriesData)
-            })
         getAllCountries()
             .then(countriesData => {
             setCountries(countriesData)
-        })
+        })   
     }, [])    
     
     const searchHandler = (e) => {
@@ -40,6 +37,8 @@ function App() {
                     filteredCountries={filteredCountries} 
                     countryInfo={countryInfo} 
                     setCountryInfo={setCountryInfo}
+                    countryWeatherInfo={countryWeatherInfo} 
+                    setCountryWeatherInfo={setCountryWeatherInfo}
                 /> 
             : "" 
         }

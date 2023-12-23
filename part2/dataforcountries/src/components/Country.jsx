@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { getCountryWeather } from '../services/countryServices'
 
-
-const Country = ({ filteredCountries, countryInfo, setCountryInfo }) => {
+const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeatherInfo, setCountryWeatherInfo}) => {
     function clickShow (country) {
-        return setCountryInfo(country)
+        setCountryInfo(country)
+         getCountryWeather(`${country.capital},${country.name.common}`) 
+            .then(countriesData => {
+                setCountryWeatherInfo(countriesData)
+        })
     }
 
     function showAllCountries (countries) {

@@ -34,10 +34,17 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeathe
                 <div>
                     <img src={Object.values(country?.flags)[0]} />
                 </div>
-                <div>Weather in {country?.capital}</div>
-                <div>Temperature {Object.values(countryWeatherInfo.main)[0]}</div>
-                <div><img src="https://openweathermap.org/img/wn/10d@2x.png"/></div>
-                <div>Wind: {Object.values(countryWeatherInfo.wind)[0]}</div>
+                {
+                    countryWeatherInfo ?
+                        <>
+                            <div>Weather in {country?.capital}</div>
+                            <div>Temperature {Object.values(countryWeatherInfo?.main)[0] || {}}</div>
+
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png"/>
+                            <div>Wind: {Object.values(countryWeatherInfo?.wind)[0]} m/s</div>
+                        </>
+                        : ""
+                }
             </>
         )
     }

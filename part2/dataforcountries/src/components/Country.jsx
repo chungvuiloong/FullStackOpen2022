@@ -36,6 +36,8 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeathe
                 </div>
                 <div>Weather in {country?.capital}</div>
                 <div>Temperature {Object.values(countryWeatherInfo.main)[0]}</div>
+                <div></div>
+                <div>Wind: {Object.values(countryWeatherInfo.wind)[0]}</div>
             </>
         )
     }

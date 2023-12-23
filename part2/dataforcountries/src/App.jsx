@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getAllCountries } from './services/countryServices'
+import { getAllCountries, getCountryWeather } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
 
@@ -9,6 +9,10 @@ function App() {
     const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {
+        getCountryWeather() 
+            .then(countriesData => {
+                console.log(countriesData)
+            })
         getAllCountries()
             .then(countriesData => {
             setCountries(countriesData)

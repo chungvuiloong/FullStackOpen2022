@@ -7,13 +7,14 @@ function App() {
     const [countries, setCountries] = useState([]);
     const [countryInfo, setCountryInfo] = useState()
     const [countryWeatherInfo, setCountryWeatherInfo] = useState()
+    const [capitalCountry, setCapitalCountry] = useState()
     const [searchCountry, setSearchCountry] = useState(null);
 
     useEffect(() => {
         getAllCountries()
             .then(countriesData => {
             setCountries(countriesData)
-        })   
+        })
     }, [])    
     
     const searchHandler = (e) => {
@@ -21,6 +22,7 @@ function App() {
         const value = e.target.value;
         setSearchCountry(value)
         setCountryInfo("")
+        
     }
 
     const filteredCountries = countries.filter((country) =>
@@ -39,6 +41,8 @@ function App() {
                     setCountryInfo={setCountryInfo}
                     countryWeatherInfo={countryWeatherInfo} 
                     setCountryWeatherInfo={setCountryWeatherInfo}
+                    capitalCountry={capitalCountry}
+                     setCapitalCountry={setCapitalCountry}
                 /> 
             : "" 
         }

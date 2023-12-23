@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { getCountryWeather } from '../services/countryServices'
 
-const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeatherInfo, setCountryWeatherInfo}) => {
+const Country = ({ filteredCountries, countryInfo, setCountryInfo, capitalCountry, setCapitalCountry, countryWeatherInfo, setCountryWeatherInfo}) => {
+
+    useEffect(() => {
+        if (capitalCountry) {
+            getCountryWeather(capitalCountry)
+            .then(w => {
+                setCountryWeatherInfo(w)
+            })
+        }
+    }, [capitalCountry])    
+
     function clickShow (country) {
         setCountryInfo(country)
-         getCountryWeather(`${country.capital},${country.name.common}`) 
-            .then(countriesData => {
-                setCountryWeatherInfo(countriesData)
-        })
+        setCapitalCountry(`${country.capital},${country.name.common}`)
     }
 
     function showAllCountries (countries) {
         return <>{countries.name.common}{" "}<button onClick={() => clickShow(countries)}>Show</button></>
     }    
+
     function oneCountry (country) {
+            setCapitalCountry(`${country.capital},${country.name.common}`)
         return (
             <>
                 <div>{country?.name?.common}</div>
@@ -52,6 +61,7 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeathe
         <div key={i}>
             {filteredCountries.length === 1 ? oneCountry(country) : showAllCountries(country)}
         </div>)
+
 
     return (
         <div>

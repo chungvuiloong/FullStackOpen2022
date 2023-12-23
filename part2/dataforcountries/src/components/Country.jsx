@@ -34,6 +34,8 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo, countryWeathe
                 <div>
                     <img src={Object.values(country?.flags)[0]} />
                 </div>
+                <div>Weather in {country?.capital}</div>
+                <div>Temperature {Object.values(countryWeatherInfo.main)[0]}</div>
             </>
         )
     }

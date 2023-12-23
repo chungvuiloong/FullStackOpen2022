@@ -7,8 +7,8 @@ async function getAllCountries () {
     return request.then(response => response.data)
 }
 
-async function getCountryWeather (place, country) {
-    const request = axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${place},${country}&appid=${WEATHER_API_KEY}`)
+async function getCountryWeather (capitalCountry) {
+    const request = axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${capitalCountry}&appid=${WEATHER_API_KEY}`)
     return request.then(response => response.data)
 }
 

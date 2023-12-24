@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAllCountries } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
+import Weather from './components/Weather'
 
 function App() {
     const [countries, setCountries] = useState([]);
@@ -45,6 +46,12 @@ function App() {
                      setCapitalCountry={setCapitalCountry}
                 /> 
             : "" 
+        }
+        {
+            !countryWeatherInfo ? 
+                ""
+                    : 
+                <Weather countryWeatherInfo={countryWeatherInfo}  />
         }
     </>
   )

@@ -24,6 +24,7 @@ function App() {
         setSearchCountry(value)
         setCountryInfo("")
         setCountryWeatherInfo("")
+        setCapitalCountry("")
     }
 
     const filteredCountries = countries.filter((country) =>

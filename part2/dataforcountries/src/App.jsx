@@ -23,7 +23,7 @@ function App() {
         const value = e.target.value;
         setSearchCountry(value)
         setCountryInfo("")
-        
+        setCountryWeatherInfo("")
     }
 
     const filteredCountries = countries.filter((country) =>

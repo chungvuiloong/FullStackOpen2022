@@ -1,16 +1,4 @@
-import { useEffect } from "react";
-import { getCountryWeather } from '../services/countryServices'
-
-const Country = ({ filteredCountries, countryInfo, setCountryInfo, capitalCountry, setCapitalCountry, countryWeatherInfo, setCountryWeatherInfo}) => {
-
-    useEffect(() => {
-        if (capitalCountry) {
-            getCountryWeather(capitalCountry)
-            .then(w => {
-                setCountryWeatherInfo(w)
-            })
-        }
-    }, [capitalCountry])    
+const Country = ({ filteredCountries, setCountryInfo, setCapitalCountry }) => {
 
     function clickShow (country) {
         setCountryInfo(country)
@@ -21,48 +9,12 @@ const Country = ({ filteredCountries, countryInfo, setCountryInfo, capitalCountr
         return <>{countries.name.common}{" "}<button onClick={() => clickShow(countries)}>Show</button></>
     }    
 
-    function oneCountry (country) {
-            setCapitalCountry(`${country.capital},${country.name.common}`)
-        return (
-            <>
-                <div>{country?.name?.common}</div>
-                <div>Capital: {country?.capital}</div>
-                <div>Area: {country?.area}</div>
-                <div>
-                    <div>Languages</div>
-                    <ul>
-                        {
-                            Object.values(country?.languages).map((language, key) => (
-                                <li key={key}>
-                                    {language}
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </div>
-                <div>
-                    <img src={Object.values(country?.flags)[0]} />
-                </div>
-            </>
-        )
-    }
-
     const filterCountriesDiv = filteredCountries?.map((country,i) =>
         <div key={i}>
-            {filteredCountries.length === 1 ? oneCountry(country) : showAllCountries(country)}
+            {filteredCountries.length === 1 ? <>Test</> : showAllCountries(country)}
         </div>)
 
-
-    return (
-        <div>
-            <div>
-                { filteredCountries.length > 10 ? "There are too many matches, try another input" : filterCountriesDiv }
-            </div>
-            <div>
-                { countryInfo && filteredCountries.length > 1 ? oneCountry(countryInfo) : "" }
-            </div>
-        </div>
-    );
+    return filteredCountries.length > 10 ? "There are too many matches, try another input" : filterCountriesDiv
 };
 
 export default Country;

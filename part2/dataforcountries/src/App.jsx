@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getAllCountries } from './services/countryServices'
+import { getAllCountries, getCountryWeather } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
 import Weather from './components/Weather'
@@ -17,6 +17,15 @@ function App() {
             setCountries(countriesData)
         })
     }, [])    
+
+    useEffect(() => {
+        if (capitalCountry) {
+            getCountryWeather(capitalCountry)
+            .then(w => {
+                setCountryWeatherInfo(w)
+            })
+        }
+    }, [capitalCountry, setCountryWeatherInfo])    
     
     const searchHandler = (e) => {
         e.preventDefault();
@@ -41,8 +50,6 @@ function App() {
                     filteredCountries={filteredCountries} 
                     countryInfo={countryInfo} 
                     setCountryInfo={setCountryInfo}
-                    countryWeatherInfo={countryWeatherInfo} 
-                    setCountryWeatherInfo={setCountryWeatherInfo}
                     capitalCountry={capitalCountry}
                      setCapitalCountry={setCapitalCountry}
                 /> 

@@ -56,10 +56,12 @@ function App() {
             {filteredCountries.length === 1 ? countryDetails(country) : showAllCountries(country)}
         </div>)
 
+    const tooManyCountries = filteredCountries.length > 10 ?  "There are too many matches, try another input" : allCountries 
+
   return (
     <>
         <Search searchHandler={searchHandler} />
-        { filteredCountries.length > 10 ?  "There are too many matches, try another input" : allCountries }
+        { !searchCountry ? <></> : tooManyCountries }
         {
             !countryWeatherInfo ? 
                 ""

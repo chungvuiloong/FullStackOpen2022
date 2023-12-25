@@ -3,6 +3,7 @@ import { getAllCountries, getCountryWeather } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
 import Weather from './components/Weather'
+import countryDetails from './components/CountryDetails';
 
 function App() {
     const [countries, setCountries] = useState([]);
@@ -41,25 +42,32 @@ function App() {
             .includes(searchCountry?.toLowerCase())
     );
 
+    function clickShow (country) {
+        setCountryInfo(country)
+        setCapitalCountry(`${country.capital},${country.name.common}`)
+    }
+
+    function showAllCountries (countries) {
+        return <>{countries.name.common}{" "}<button onClick={() => clickShow(countries)}>Show</button></>
+    }    
+
+    const allCountries = filteredCountries?.map((country,i) =>
+        <div key={i}>
+            {filteredCountries.length === 1 ? countryDetails(country) : showAllCountries(country)}
+        </div>)
+
   return (
     <>
         <Search searchHandler={searchHandler} />
-        { 
-            countries && searchCountry ? 
-                <Country 
-                    filteredCountries={filteredCountries} 
-                    countryInfo={countryInfo} 
-                    setCountryInfo={setCountryInfo}
-                    capitalCountry={capitalCountry}
-                     setCapitalCountry={setCapitalCountry}
-                /> 
-            : "" 
-        }
+        { filteredCountries.length > 10 ?  "There are too many matches, try another input" : allCountries }
         {
             !countryWeatherInfo ? 
                 ""
                     : 
-                <Weather countryWeatherInfo={countryWeatherInfo}  />
+                <> 
+                    {countryDetails(countryInfo)}
+                    <Weather countryWeatherInfo={countryWeatherInfo}  />
+                </>
         }
     </>
   )

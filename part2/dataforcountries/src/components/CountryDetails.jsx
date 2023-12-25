@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-
-function countryDetails (country) {
-
+const CountryDetails = (country) => {
     return (         
         <>
             <div>{country?.name?.common}</div>
@@ -26,4 +23,4 @@ function countryDetails (country) {
     )
 }
 
-export default countryDetails;
+export default CountryDetails;

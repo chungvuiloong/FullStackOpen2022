@@ -3,6 +3,7 @@ import { getCountryWeather } from '../services/countryServices'
 
 const Weather = ({ country }) => {
     const [countryWeatherInfo, setCountryWeatherInfo] = useState()
+    
     if (country) {
         useEffect(() => {
             getCountryWeather(`${country.capital},${country.name.common}`)
@@ -10,6 +11,10 @@ const Weather = ({ country }) => {
                 setCountryWeatherInfo(w)
             })
         }, [])    
+    }
+
+    if (!countryWeatherInfo) {
+        return `Loading weather data`
     }
 
     return (

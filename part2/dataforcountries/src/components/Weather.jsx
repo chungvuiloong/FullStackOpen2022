@@ -10,7 +10,7 @@ const Weather = ({ country }) => {
             .then(w => {
                 setCountryWeatherInfo(w)
             })
-        }, [])    
+        }, [country])    
     }
 
     if (!countryWeatherInfo) {

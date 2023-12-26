@@ -48,12 +48,7 @@ function App() {
         { !searchCountry ? <></> : tooManyCountries }
 
         {
-            !countryInfo ? 
-                ""
-                    : 
-                <> 
-                    <CountryDetails {...countryInfo} />
-                </>
+            !countryInfo ? ""  : <CountryDetails {...countryInfo} />
         }
     </>
   )

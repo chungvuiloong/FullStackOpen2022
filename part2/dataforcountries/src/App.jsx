@@ -8,9 +8,12 @@ import CountryDetails from './components/CountryDetails';
 function App() {
     const [countries, setCountries] = useState([]);
     const [countryInfo, setCountryInfo] = useState()
-    const [countryWeatherInfo, setCountryWeatherInfo] = useState()
     const [capitalCountry, setCapitalCountry] = useState()
     const [searchCountry, setSearchCountry] = useState(null);
+    const filteredCountries = countries.filter((country) =>
+        country?.name?.common?.toLowerCase()
+            .includes(searchCountry?.toLowerCase())
+    );
 
     useEffect(() => {
         getAllCountries()
@@ -19,15 +22,6 @@ function App() {
         })
     }, [])    
 
-    useEffect(() => {
-        if (capitalCountry) {
-            getCountryWeather(capitalCountry)
-            .then(w => {
-                setCountryWeatherInfo(w)
-            })
-        }
-    }, [capitalCountry, setCountryWeatherInfo])    
-    
     const searchHandler = (e) => {
         e.preventDefault();
         const value = e.target.value;
@@ -36,12 +30,7 @@ function App() {
         setCountryWeatherInfo("")
         setCapitalCountry("")
     }
-
-    const filteredCountries = countries.filter((country) =>
-        country?.name?.common?.toLowerCase()
-            .includes(searchCountry?.toLowerCase())
-    );
-
+    
     function clickShow (country) {
         setCountryInfo(country)
         setCapitalCountry(`${country.capital},${country.name.common}`)
@@ -53,8 +42,9 @@ function App() {
 
     const allCountries = filteredCountries?.map((country,i) =>
         <div key={i}>
-            {filteredCountries.length === 1 ? <CountryDetails {...country} /> : showAllCountries(country)}
-        </div>)
+            { filteredCountries.length === 1 ? <CountryDetails {...country}  /> : showAllCountries(country) }
+        </div>
+    )
 
     const tooManyCountries = filteredCountries.length > 10 ?  "There are too many matches, try another input" : allCountries 
 
@@ -62,14 +52,13 @@ function App() {
     <>
         <Search searchHandler={searchHandler} />
         { !searchCountry ? <></> : tooManyCountries }
+
         {
-            !countryWeatherInfo ? 
+            !countryInfo ? 
                 ""
                     : 
                 <> 
-                    {/* {countryDetails(countryInfo)} */}
                     <CountryDetails {...countryInfo} />
-                    <Weather countryWeatherInfo={countryWeatherInfo}  />
                 </>
         }
     </>

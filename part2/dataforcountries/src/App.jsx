@@ -3,7 +3,7 @@ import { getAllCountries, getCountryWeather } from './services/countryServices'
 import Search from './components/Search';
 import Country from './components/Country';
 import Weather from './components/Weather'
-import countryDetails from './components/CountryDetails';
+import CountryDetails from './components/CountryDetails';
 
 function App() {
     const [countries, setCountries] = useState([]);
@@ -53,7 +53,7 @@ function App() {
 
     const allCountries = filteredCountries?.map((country,i) =>
         <div key={i}>
-            {filteredCountries.length === 1 ? countryDetails(country) : showAllCountries(country)}
+            {filteredCountries.length === 1 ? <CountryDetails {...country} /> : showAllCountries(country)}
         </div>)
 
     const tooManyCountries = filteredCountries.length > 10 ?  "There are too many matches, try another input" : allCountries 
@@ -67,7 +67,8 @@ function App() {
                 ""
                     : 
                 <> 
-                    {countryDetails(countryInfo)}
+                    {/* {countryDetails(countryInfo)} */}
+                    <CountryDetails {...countryInfo} />
                     <Weather countryWeatherInfo={countryWeatherInfo}  />
                 </>
         }

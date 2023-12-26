@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getAllCountries, getCountryWeather } from './services/countryServices'
+import { getAllCountries } from './services/countryServices'
 import Search from './components/Search';
-import Country from './components/Country';
-import Weather from './components/Weather'
 import CountryDetails from './components/CountryDetails';
 
 function App() {
@@ -27,7 +25,6 @@ function App() {
         const value = e.target.value;
         setSearchCountry(value)
         setCountryInfo("")
-        setCountryWeatherInfo("")
         setCapitalCountry("")
     }
     

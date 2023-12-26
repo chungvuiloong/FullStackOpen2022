@@ -6,7 +6,6 @@ import CountryDetails from './components/CountryDetails';
 function App() {
     const [countries, setCountries] = useState([]);
     const [countryInfo, setCountryInfo] = useState()
-    const [capitalCountry, setCapitalCountry] = useState()
     const [searchCountry, setSearchCountry] = useState(null);
     const filteredCountries = countries.filter((country) =>
         country?.name?.common?.toLowerCase()
@@ -25,12 +24,10 @@ function App() {
         const value = e.target.value;
         setSearchCountry(value)
         setCountryInfo("")
-        setCapitalCountry("")
     }
     
     function clickShow (country) {
         setCountryInfo(country)
-        setCapitalCountry(`${country.capital},${country.name.common}`)
     }
 
     function showAllCountries (countries) {

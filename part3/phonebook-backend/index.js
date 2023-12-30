@@ -28,6 +28,12 @@ app.get('/', (request, res) => {
     res.send('<h1>Phonebook backend</h1>')
   })
 
+app.get('/info', (req, res) => {
+    const numOfPeople = notes.length
+    const date = new Date().toString()
+    res.send(`<p>Phonebook has info of ${numOfPeople} people. <br/>${date}</p>`)
+})
+
 app.get('/api/persons', (req, res) => {
     res.json(notes)
 })

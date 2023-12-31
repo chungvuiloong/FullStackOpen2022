@@ -49,7 +49,7 @@ app.get('/api/persons/:id', (req, res) => {
       } else {
         res.status(404).end()
       }
-    res.json(note)
+    res.json(person)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -65,6 +65,12 @@ app.post('/api/persons/', (req, res)=>{
     const randomId = function (max) {
         return Math.floor(Math.random() * max);
     }
+    const person = {
+        name: name,
+        number: number,
+        id: randomId(1000)
+    }
+
 
     if (!name || !number) {
       return res.status(400).json({ 
@@ -72,15 +78,7 @@ app.post('/api/persons/', (req, res)=>{
       })
     } 
 
-    // if () {
 
-    // }
-
-    const person = {
-        name: name,
-        number: number,
-        id: randomId(1000)
-    }
 
     persons = [...persons, person]
     res.status(201).json(`${name} has been added to the phonebook`);

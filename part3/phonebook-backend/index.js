@@ -61,15 +61,29 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons/', (req, res)=>{
+    const { name, number } = req.body
     const randomId = function (max) {
         return Math.floor(Math.random() * max);
-      }
+    }
 
-    const person = req.body
-    person.id = randomId(1000)
+    if (!name || !number) {
+      return res.status(400).json({ 
+        error: 'content missing' 
+      })
+    } 
+
+    // if () {
+
+    // }
+
+    const person = {
+        name: name,
+        number: number,
+        id: randomId(1000)
+    }
 
     persons = [...persons, person]
-    res.json(person)
+    res.status(201).json(`${name} has been added to the phonebook`);
 })
 
 const PORT = 3001

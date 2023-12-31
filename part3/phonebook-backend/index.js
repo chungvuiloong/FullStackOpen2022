@@ -69,15 +69,28 @@ app.post('/api/persons/', (req, res)=>{
         number: number,
         id: randomId(1000)
     }
-
+    function detectSameName (inputName) {
+        const person = persons.find(p =>  
+            p.name.toLocaleLowerCase() === inputName.toLocaleLowerCase() 
+        )
+        if (person) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     if (!name || !number) {
-      return res.status(400).json({ 
-        error: 'content missing' 
-      })
-    } 
+        return res.status(400).json({ 
+            error: 'content missing' 
+        })
+    }
 
-
+    if (detectSameName(name)) {
+        return res.status(400).json({ 
+            error: 'name must be unique'
+        })
+    }
 
     persons = [...persons, person]
     res.status(201).json(`${name} has been added to the phonebook`);

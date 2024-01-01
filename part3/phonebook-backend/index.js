@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+var morgan = require('morgan')
 app.use(express.json())
 
 let persons = [
@@ -24,6 +25,8 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+app.use(morgan('tiny'))
 
 app.get('/', (request, res) => {
     res.send('<h1>Phonebook backend</h1>')

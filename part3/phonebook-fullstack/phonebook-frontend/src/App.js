@@ -62,6 +62,11 @@ const App = () => {
         id: persons.length + 1
         };
 
+        const removeSpaces = newName.replace(/\s/g, '');
+        if (!removeSpaces) {
+            return notificationHandler(`Add a name to continue`, 5, 'error')
+        }
+
         if (checkForSamePerson()) {
             if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
                 const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;

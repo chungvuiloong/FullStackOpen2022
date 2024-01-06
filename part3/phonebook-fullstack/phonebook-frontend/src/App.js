@@ -13,7 +13,6 @@ const App = () => {
     const [notification, setNotification] = useState(null)
     const [notificationType, setNotificationType] = useState(null)
     const filteredName = persons.filter(person => person.name.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()))
-
     useEffect(() => {
         getAll()
         .then(person => {
@@ -42,6 +41,10 @@ const App = () => {
     const resetNameNumberInput = () => {
         setNewName("")
         setNewNumber("")
+    }
+
+    const resetSearchInput = () => {
+        setSearchName("")
     }
 
     function notificationHandler(message, time, type) {
@@ -122,7 +125,7 @@ const App = () => {
     return (
         <div style={{ position: 'relative'}}>
             <h2 >Phonebook</h2>
-            <Filter searchNameHandler={searchNameHandler}/>
+            <Filter searchName={searchName} searchNameHandler={searchNameHandler} resetSearchInput={resetSearchInput} />
             
             <h2>Add a new person & number</h2>
             {

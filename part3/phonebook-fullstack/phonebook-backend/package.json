@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "remove": "rm -rf ../phonebook-frontend/dist && rm -rf ../phonebook-backend/dist",
+    "build:ui": "npm run remove && cd ../phonebook-frontend/ && npm run build && cp -r dist ../phonebook-backend",
+    "deploy": "npm run build:ui && git add . && git push"
   },
   "author": "MrJay",
   "license": "ISC",

@@ -7,8 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "remove": "rm -rf ../phonebook-frontend/dist && rm -rf ../phonebook-backend/dist",
-    "build:ui": "npm run remove && cd ../phonebook-frontend/ && npm run build && cp -r dist ../phonebook-backend",
+    "remove": "rm -rf ../phonebook-frontend/build && rm -rf ../phonebook-backend/build",
+    "build:ui": "npm run remove && cd ../phonebook-frontend/ && npm run build && cp -r build ../phonebook-backend",
     "deploy": "npm run build:ui && git add . && git push"
   },
   "author": "MrJay",

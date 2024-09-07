@@ -6,10 +6,8 @@ if (process.argv.length<3) {
 }
 
 const password = process.argv[2]
-
-// const url =
-//   `mongodb+srv://fullstack:${password}@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority`
-
+const name = process.argv[3]
+const number = process.argv[3]
 const url =
   `mongodb+srv://fullstack:${password}@fullstack.uibsh.mongodb.net/?retryWrites=true&w=majority&appName=fullstack`
 

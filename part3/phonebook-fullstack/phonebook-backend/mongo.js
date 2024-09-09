@@ -9,31 +9,31 @@ const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
 const url =
-  `mongodb+srv://fullstack:${password}@fullstack.uibsh.mongodb.net/phonebook?retryWrites=true&w=majority&appName=fullstack`
+  `mongodb+srv://fullstack:${password}@fullstack.uibsh.mongodb.net/persons?retryWrites=true&w=majority&appName=fullstack`
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
 
-const phonebookSchema = new mongoose.Schema({
+const personsSchema = new mongoose.Schema({
   name: String,
   phonenumber: Number,
 })
 
-const Phonebook = mongoose.model('Phonebook', phonebookSchema)
+const Persons = mongoose.model('person', personsSchema)
 
-const phonebook = new Phonebook({
+const person = new Persons({
   name: name,
   phonenumber: number,
 })
 
-phonebook.save().then(result => {
+person.save().then(result => {
   console.log('note saved!')
   console.log(`added ${name} number ${number} to phonebook`);
 //   mongoose.connection.close()
 })
 
 console.log('phonebook:')
-Phonebook.find({}).then(result => {
+Persons.find({}).then(result => {
     result.forEach(note => {
       console.log(note.name, note.phonenumber)
     })

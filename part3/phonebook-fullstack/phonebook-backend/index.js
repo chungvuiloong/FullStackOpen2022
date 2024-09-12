@@ -116,42 +116,53 @@ app.get('/api/persons/:id', (req, res) => {
 //     response.status(204).end()
 // })
 
-// app.post('/api/persons/', (req, res)=>{
-//     const { name, number } = req.body
-//     const randomId = function (max) {
-//         return Math.floor(Math.random() * max);
-//     }
-//     const person = {
-//         name: name,
-//         number: number,
-//         id: randomId(1000)
-//     }
-//     function detectSameName (inputName) {
-//         const person = persons.find(p =>  
-//             p.name.toLocaleLowerCase() === inputName.toLocaleLowerCase() 
-//         )
-//         if (person) {
-//             return true
-//         } else {
-//             return false
-//         }
-//     }
+app.post('/api/persons/', (req, res)=>{
+    const { name, number } = req.body
+    // const randomId = function (max) {
+    //     return Math.floor(Math.random() * max);
+    // }
+    // const person = {
+    //     name: name,
+    //     number: number,
+    //     id: randomId(1000)
+    // }
 
-//     if (!name || !number) {
-//         return res.status(400).json({ 
-//             error: 'content missing' 
-//         })
-//     }
+    const person = new Persons({
+        name: name,
+        phonenumber: number,
+      })
 
-//     if (detectSameName(name)) {
-//         return res.status(400).json({ 
-//             error: 'name must be unique'
-//         })
-//     }
+    person.save().then(result => {
+        console.log('note saved!')
+        console.log(`added ${name} number ${number} to phonebook`);
+      })
 
-//     persons = [...persons, person]
-//     res.status(201).json(`${name} has been added to the phonebook`);
-// })
+    function detectSameName (inputName) {
+        const person = persons.find(p =>  
+            p.name.toLocaleLowerCase() === inputName.toLocaleLowerCase() 
+        )
+        if (person) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    if (!name || !number) {
+        return res.status(400).json({ 
+            error: 'content missing' 
+        })
+    }
+
+    if (detectSameName(name)) {
+        return res.status(400).json({ 
+            error: 'name must be unique'
+        })
+    }
+
+    persons = [...persons, person]
+    res.status(201).json(`${name} has been added to the phonebook`);
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

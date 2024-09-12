@@ -118,18 +118,10 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons/', (req, res)=>{
     const { name, number } = req.body
-    // const randomId = function (max) {
-    //     return Math.floor(Math.random() * max);
-    // }
-    // const person = {
-    //     name: name,
-    //     number: number,
-    //     id: randomId(1000)
-    // }
-
+ 
     const person = new Persons({
         name: name,
-        phonenumber: number,
+        number: number,
       })
 
     person.save().then(result => {

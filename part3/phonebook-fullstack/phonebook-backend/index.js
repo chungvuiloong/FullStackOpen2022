@@ -153,6 +153,22 @@ app.post('/api/persons/', (req, res)=>{
     res.status(201).json(`${name} has been added to the phonebook`);
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+    const { name, number } = req.body
+ 
+    const updatedPersonperson = {
+        name: name,
+        number: number,
+      }
+ 
+    Persons.findByIdAndUpdate(req.params.id, updatedPersonperson, { new: true, runValidators: true })
+      .then(updatedPerson => {
+        res.json(updatedPerson)
+      })
+      .catch(error => next(error))
+  })
+  
+
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
   }  

@@ -17,17 +17,15 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const personsSchema = new mongoose.Schema({
-    id: Number,
     name: String,
-    phonenumber: String,
+    number: String,
 })
 
 const Persons = mongoose.model('person', personsSchema)
 
 const person = new Persons({
-    id: Number,
     name: String,
-    phonenumber: String
+    number: String
 })
 
 personsSchema.set('toJSON', {
@@ -121,13 +119,10 @@ app.post('/api/persons/', (req, res)=>{
  
     const person = new Persons({
         name: name,
-        number: number,
+        number: number
       })
 
-    person.save().then(result => {
-        console.log('note saved!')
-        console.log(`added ${name} number ${number} to phonebook`);
-      })
+    person.save()
 
     function detectSameName (inputName) {
         const person = persons.find(p =>  

@@ -2,16 +2,12 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 var morgan = require('morgan')
-app.use(express.static('build'))
-app.use(cors())
-app.use(express.json())
+
 const mongoose = require('mongoose')
+require('dotenv').config()
 
-morgan.token('body', (req, res) => JSON.stringify(req.body));
-app.use(morgan(':method :url :status :response-time ms - :body'));
-
-const name = process.argv[3]
-const number = process.argv[4]
+// const name = process.argv[3]
+// const number = process.argv[4]
 const password = process.env.MONGODB_PASSWORD
 const cluster = process.env.MONGODB_CLUSTER
 const db = process.env.MONGODB_DB
@@ -20,11 +16,26 @@ const url =
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
-mongoose.connect(url)
-
 const personsSchema = new mongoose.Schema({
-  name: String,
-  phonenumber: Number,
+    id: Number,
+    name: String,
+    phonenumber: String,
+})
+
+const Persons = mongoose.model('person', personsSchema)
+
+const person = new Persons({
+    id: Number,
+    name: String,
+    phonenumber: String
+})
+
+personsSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+      returnedObject.id = returnedObject._id.toString()
+      delete returnedObject._id
+      delete returnedObject.__v
+    }
 })
 
 let persons = [
@@ -50,76 +61,102 @@ let persons = [
     }
 ]
 
+app.use(express.static('build'))
+app.use(cors())
+app.use(express.json())
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+app.use(morgan(':method :url :status :response-time ms - :body'));
+
+
 app.get('/', (request, res) => {
     res.send('<h1>Phonebook backend</h1>')
   })
 
+// app.get('/info', (req, res) => {
+//     const numOfPeople = Persons.length
+//     const date = new Date().toString()
+//     res.send(`<p>Phonebook has info of ${numOfPeople} people. <br/>${date}</p>`)
+// })
+
 app.get('/info', (req, res) => {
-    const numOfPeople = persons.length
-    const date = new Date().toString()
-    res.send(`<p>Phonebook has info of ${numOfPeople} people. <br/>${date}</p>`)
-})
+    Persons.countDocuments({})
+      .then(count => {
+        const date = new Date().toString();
+        res.send(`<p>Phonebook has info of ${count} people. <br/>${date}</p>`);
+      })
+      .catch(error => res.status(500).json({ error: 'Something went wrong' }));
+  });
+  
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
-})
-
-app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(p => 
-        p.id === id 
-    )
-    if (person) {
-        res.json(person)
-      } else {
-        res.status(404).end()
-      }
-})
-
-app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(p => 
-        p.id !== id 
-    )
-    response.status(204).end()
-})
-
-app.post('/api/persons/', (req, res)=>{
-    const { name, number } = req.body
-    const randomId = function (max) {
-        return Math.floor(Math.random() * max);
-    }
-    const person = {
-        name: name,
-        number: number,
-        id: randomId(1000)
-    }
-    function detectSameName (inputName) {
-        const person = persons.find(p =>  
-            p.name.toLocaleLowerCase() === inputName.toLocaleLowerCase() 
-        )
-        if (person) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    if (!name || !number) {
-        return res.status(400).json({ 
-            error: 'content missing' 
+    Persons.find({})
+        .then(person => {
+        res.json(person);
         })
-    }
-
-    if (detectSameName(name)) {
-        return res.status(400).json({ 
-            error: 'name must be unique'
-        })
-    }
-
-    persons = [...persons, person]
-    res.status(201).json(`${name} has been added to the phonebook`);
+        .catch(error => res.status(500).json({ error: 'Failed to fetch persons' }));
 })
+
+// app.get('/api/persons/:id', (req, res) => {
+//     const id = Persons.findById(req.params.id)
+//         .then(result => {
+//             res.json(result)
+//     })
+
+//     const person = Persons.find(p => 
+//         p.id === id 
+//     )
+
+//     if (person) {
+//         res.json(person)
+//       } else {
+//         res.status(404).end()
+//       }
+// })
+
+// app.delete('/api/persons/:id', (req, res) => {
+//     const id = Number(req.params.id)
+//     persons = Persons.filter(p => 
+//         p.id !== id 
+//     )
+//     response.status(204).end()
+// })
+
+// app.post('/api/persons/', (req, res)=>{
+//     const { name, number } = req.body
+//     const randomId = function (max) {
+//         return Math.floor(Math.random() * max);
+//     }
+//     const person = {
+//         name: name,
+//         number: number,
+//         id: randomId(1000)
+//     }
+//     function detectSameName (inputName) {
+//         const person = persons.find(p =>  
+//             p.name.toLocaleLowerCase() === inputName.toLocaleLowerCase() 
+//         )
+//         if (person) {
+//             return true
+//         } else {
+//             return false
+//         }
+//     }
+
+//     if (!name || !number) {
+//         return res.status(400).json({ 
+//             error: 'content missing' 
+//         })
+//     }
+
+//     if (detectSameName(name)) {
+//         return res.status(400).json({ 
+//             error: 'name must be unique'
+//         })
+//     }
+
+//     persons = [...persons, person]
+//     res.status(201).json(`${name} has been added to the phonebook`);
+// })
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

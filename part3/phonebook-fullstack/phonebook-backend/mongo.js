@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 if (process.argv.length<3) {
   console.log('give password as argument')
@@ -8,10 +9,12 @@ if (process.argv.length<3) {
 const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
-const url =
-  `mongodb+srv://fullstack:${password}@fullstack.uibsh.mongodb.net/persons?retryWrites=true&w=majority&appName=fullstack`
-mongoose.set('strictQuery',false)
+const cluster = process.env.MONGODB_CLUSTER
+const db = process.env.MONGODB_DB
 
+const url =
+  `mongodb+srv://fullstack:${password}@${cluster}.uibsh.mongodb.net/${db}?retryWrites=true&w=majority`
+mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const personsSchema = new mongoose.Schema({

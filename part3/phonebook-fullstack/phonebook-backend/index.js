@@ -105,13 +105,13 @@ app.get('/api/persons/:id', (req, res) => {
         .catch(error => next(error))
 })
 
-// app.delete('/api/persons/:id', (req, res) => {
-//     const id = Number(req.params.id)
-//     persons = Persons.filter(p => 
-//         p.id !== id 
-//     )
-//     response.status(204).end()
-// })
+app.delete('/api/persons/:id', (req, res) => {
+    Persons.findByIdAndDelete(req.params.id)
+        .then(result => {
+        res.status(204).end()
+        })
+        .catch(error => next(error))
+})
 
 app.post('/api/persons/', (req, res)=>{
     const { name, number } = req.body

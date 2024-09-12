@@ -14,8 +14,15 @@ const db = process.env.MONGODB_DB
 
 const url =
   `mongodb+srv://fullstack:${password}@${cluster}.uibsh.mongodb.net/${db}?retryWrites=true&w=majority`
+console.log('connecting to', url)
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
+  .then(result => {
+    console.log('connected to MongoDB')
+  })
+  .catch(error => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 const personsSchema = new mongoose.Schema({
   name: String,
@@ -23,6 +30,14 @@ const personsSchema = new mongoose.Schema({
 })
 
 const Persons = mongoose.model('person', personsSchema)
+
+personsSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+      returnedObject.id = returnedObject._id.toString()
+      delete returnedObject._id
+      delete returnedObject.__v
+    }
+})
 
 const person = new Persons({
   name: name,
@@ -37,8 +52,9 @@ person.save().then(result => {
 
 console.log('phonebook:')
 Persons.find({}).then(result => {
-    result.forEach(note => {
-      console.log(note.name, note.phonenumber)
+    result.forEach(person => {
+    //   console.log(note.name, note.phonenumber)
+      console.log(person)
     })
     mongoose.connection.close()
   })

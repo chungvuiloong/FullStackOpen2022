@@ -69,12 +69,6 @@ app.get('/', (request, res) => {
     res.send('<h1>Phonebook backend</h1>')
   })
 
-// app.get('/info', (req, res) => {
-//     const numOfPeople = Persons.length
-//     const date = new Date().toString()
-//     res.send(`<p>Phonebook has info of ${numOfPeople} people. <br/>${date}</p>`)
-// })
-
 app.get('/info', (req, res) => {
     Persons.countDocuments({})
       .then(count => {
@@ -83,7 +77,6 @@ app.get('/info', (req, res) => {
       })
       .catch(error => res.status(500).json({ error: 'Something went wrong' }));
   });
-  
 
 app.get('/api/persons', (req, res) => {
     Persons.find({})
@@ -102,7 +95,7 @@ app.get('/api/persons/:id', (req, res) => {
             res.status(404).end()
         }
         })
-        .catch(error => next(error))
+        .catch(error => next(error)) 
 })
 
 app.delete('/api/persons/:id', (req, res) => {

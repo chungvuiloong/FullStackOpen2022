@@ -5,9 +5,27 @@ var morgan = require('morgan')
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
+const mongoose = require('mongoose')
 
 morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :response-time ms - :body'));
+
+const name = process.argv[3]
+const number = process.argv[4]
+const password = process.env.MONGODB_PASSWORD
+const cluster = process.env.MONGODB_CLUSTER
+const db = process.env.MONGODB_DB
+const url =
+  `mongodb+srv://fullstack:${password}@${cluster}.uibsh.mongodb.net/${db}?retryWrites=true&w=majority`
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+mongoose.connect(url)
+
+const personsSchema = new mongoose.Schema({
+  name: String,
+  phonenumber: Number,
+})
 
 let persons = [
     { 

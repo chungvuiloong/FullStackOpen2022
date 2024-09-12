@@ -17,17 +17,15 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const personsSchema = new mongoose.Schema({
-    id: Number,
     name: String,
-    phonenumber: String,
+    number: String,
 })
 
 const Persons = mongoose.model('person', personsSchema)
 
 const person = new Persons({
-    id: Number,
     name: String,
-    phonenumber: String
+    number: String
 })
 
 personsSchema.set('toJSON', {
@@ -67,7 +65,6 @@ app.use(express.json())
 morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :response-time ms - :body'));
 
-
 app.get('/', (request, res) => {
     res.send('<h1>Phonebook backend</h1>')
   })
@@ -102,10 +99,10 @@ app.get('/api/persons/:id', (req, res) => {
         if (person) {
             res.json(person);
         } else {
-            res.status(404).json({ error: 'Person not found' });
+            res.status(404).end()
         }
         })
-        .catch(error => res.status(400).json({ error: 'Malformed ID' }));
+        .catch(error => next(error))
 })
 
 // app.delete('/api/persons/:id', (req, res) => {
@@ -118,18 +115,10 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons/', (req, res)=>{
     const { name, number } = req.body
-    // const randomId = function (max) {
-    //     return Math.floor(Math.random() * max);
-    // }
-    // const person = {
-    //     name: name,
-    //     number: number,
-    //     id: randomId(1000)
-    // }
-
+ 
     const person = new Persons({
         name: name,
-        phonenumber: number,
+        number: number,
       })
 
     person.save().then(result => {
@@ -163,6 +152,24 @@ app.post('/api/persons/', (req, res)=>{
     persons = [...persons, person]
     res.status(201).json(`${name} has been added to the phonebook`);
 })
+
+// const unknownEndpoint = (request, response) => {
+//     response.status(404).send({ error: 'unknown endpoint' })
+//   }  
+
+// app.use(unknownEndpoint)
+
+// const errorHandler = (error, request, response, next) => {
+//     console.error(error.message)
+  
+//     if (error.name === 'CastError') {
+//       return response.status(400).send({ error: 'malformatted id' })
+//     } 
+  
+//     next(error)
+//   }
+  
+//   app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

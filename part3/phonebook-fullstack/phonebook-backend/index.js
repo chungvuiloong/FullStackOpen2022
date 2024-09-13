@@ -74,7 +74,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/persons/', (req, res)=>{
+app.post('/api/persons/', (req, res, next)=>{
     const { name, number } = req.body
  
     const person = new Persons({
@@ -83,6 +83,10 @@ app.post('/api/persons/', (req, res)=>{
       })
 
     person.save()
+        .then(savedPerson => {
+            res.json(savedPerson)
+        })
+        .catch(error => next(error))
 
     function detectSameName (inputName) {
         const person = persons.find(p =>  
@@ -114,15 +118,19 @@ app.post('/api/persons/', (req, res)=>{
 app.put('/api/persons/:id', (req, res, next) => {
     const { name, number } = req.body
  
-    const updatedPersonperson = {
+    const updatedPerson = {
         name: name,
         number: number,
       }
  
-    Persons.findByIdAndUpdate(req.params.id, updatedPersonperson, { new: true, runValidators: true })
-      .then(updatedPerson => {
-        res.json(updatedPerson)
-      })
+    Persons.findByIdAndUpdate(req.params.id, updatedPerson, { new: true, runValidators: true })
+    .then(updatedPerson => {
+        if (updatedPerson) {
+            res.json(updatedPerson);
+        } else {
+            res.status(404).end();
+        }
+    })
       .catch(error => next(error))
   })
   
@@ -134,16 +142,17 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
-  
+    console.error(error.message);
+
     if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    } 
-  
-    next(error)
-  }
-  
-  app.use(errorHandler)
+        return response.status(400).send({ error: 'malformatted id' });
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message });
+    }
+
+    next(error);
+};
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

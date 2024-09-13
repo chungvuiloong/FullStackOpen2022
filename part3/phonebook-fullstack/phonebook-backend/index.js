@@ -54,7 +54,7 @@ app.get('/api/persons', (req, res) => {
         .catch(error => res.status(500).json({ error: 'Failed to fetch persons' }));
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     Persons.findById(req.params.id)
         .then(person => {
         if (person) {
@@ -66,7 +66,7 @@ app.get('/api/persons/:id', (req, res) => {
         .catch(error => next(error)) 
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
     Persons.findByIdAndDelete(req.params.id)
         .then(result => {
         res.status(204).end()

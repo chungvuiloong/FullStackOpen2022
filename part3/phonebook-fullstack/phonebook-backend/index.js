@@ -2,39 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 var morgan = require('morgan')
-
-const mongoose = require('mongoose')
-require('dotenv').config()
-
-// const name = process.argv[3]
-// const number = process.argv[4]
-const password = process.env.MONGODB_PASSWORD
-const cluster = process.env.MONGODB_CLUSTER
-const db = process.env.MONGODB_DB
-const url =
-  `mongodb+srv://fullstack:${password}@${cluster}.uibsh.mongodb.net/${db}?retryWrites=true&w=majority`
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const personsSchema = new mongoose.Schema({
-    name: String,
-    number: String,
-})
-
-const Persons = mongoose.model('person', personsSchema)
-
-const person = new Persons({
-    name: String,
-    number: String
-})
-
-personsSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-})
+const Persons = require('./model/person')
 
 let persons = [
     { 

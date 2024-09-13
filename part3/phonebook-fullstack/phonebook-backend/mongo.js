@@ -26,7 +26,7 @@ mongoose.connect(url)
 
 const personsSchema = new mongoose.Schema({
   name: String,
-  phonenumber: Number,
+  number: Number,
 })
 
 const Persons = mongoose.model('person', personsSchema)
@@ -41,7 +41,7 @@ personsSchema.set('toJSON', {
 
 const person = new Persons({
   name: name,
-  phonenumber: number,
+  number: number,
 })
 
 person.save().then(result => {

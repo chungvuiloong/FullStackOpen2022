@@ -114,10 +114,7 @@ app.post('/api/persons/', (req, res)=>{
         number: number,
       })
 
-    person.save().then(result => {
-        console.log('note saved!')
-        console.log(`added ${name} number ${number} to phonebook`);
-      })
+    person.save()
 
     function detectSameName (inputName) {
         const person = persons.find(p =>  

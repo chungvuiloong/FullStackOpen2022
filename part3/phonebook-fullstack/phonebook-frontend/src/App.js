@@ -94,8 +94,11 @@ const App = () => {
                         setPersons(persons.concat(p))
                         resetNameNumberInput()
                         })                
-                    .catch(_=> {
-                        notificationHandler(`New person wasn't created`, 5, 'error')
+                    .catch(error => {
+                        
+                        const errorMessage = error.response?.data?.error || 'Failed to create the person'
+                        console.log(errorMessage)
+                        notificationHandler(errorMessage, 5, 'error')
                     })
             }
     }

@@ -60,15 +60,47 @@ const App = () => {
     const addPerson = (e) => {
         e.preventDefault()
         const newPersonData = {
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1
+            name: newName,
+            number: newNumber,
+            id: persons.length + 1
         };
 
-        const removeSpaces = newName.replace(/\s/g, '');
-        if (!removeSpaces) {
-            return notificationHandler(`Add a name to continue`, 5, 'error')
-        }
+        // const removeSpaces = newName.replace(/\s/g, '');
+        // if (!removeSpaces) {
+        //     return notificationHandler(`Add a name to continue`, 5, 'error')
+        // }
+
+    //     if (checkForSamePerson()) {
+    //         if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
+    //             const findPersonId = (persons.find(p => p.name === newPersonData?.name) || {}).id;
+    //             updatePerson(findPersonId, {name: newName, number: newNumber})
+    //                 .then(updatedPerson => {
+    //                         const updatedPersons = persons.map(person =>
+    //                             person.id === updatedPerson.id ? updatedPerson : person
+    //                         );
+    //                     notificationHandler(`Updated ${newName} number to ${newNumber}`, 5, 'successful')
+    //                     setPersons(updatedPersons);
+    //                     resetNameNumberInput()
+    //                     }
+    //                 )
+    //                 .catch(_=> {
+    //                     notificationHandler(`The new number wasn't updated`, 5, 'error')
+    //                 })
+    //         }
+    //     } else {    
+    //             createNewPerson(newPersonData)
+    //                 .then(p => {
+    //                     notificationHandler(`Added ${newPersonData.name}`, 5, 'successful')
+    //                     setPersons(persons.concat(p))
+    //                     resetNameNumberInput()
+    //                     })                
+    //                 .catch(error => {
+    //                     const errorMessage = error.response?.data?.error
+    //                     console.log(errorMessage)
+    //                     notificationHandler(errorMessage, 5, 'error')
+    //                 })
+    //         }
+    // }
 
         if (checkForSamePerson()) {
             if ( window.confirm(`${newName} is already in the phonebook. Updated the existing phone number?`) === true) {
@@ -87,20 +119,21 @@ const App = () => {
                         notificationHandler(`The new number wasn't updated`, 5, 'error')
                     })
             }
-        } else {    
-                createNewPerson(newPersonData)
-                    .then(p => {
-                        notificationHandler(`Added ${newPersonData.name}`, 5, 'successful')
-                        setPersons(persons.concat(p))
-                        resetNameNumberInput()
-                        })                
-                    .catch(error => {
-                        
-                        const errorMessage = error.response?.data?.error || 'Failed to create the person'
-                        console.log(errorMessage)
-                        notificationHandler(errorMessage, 5, 'error')
-                    })
-            }
+        } 
+        
+        if (!checkForSamePerson()) { 
+            createNewPerson(newPersonData)
+                .then(p => {
+                    notificationHandler(`Added ${newPersonData.name}`, 5, 'successful')
+                    setPersons(persons.concat(p))
+                    resetNameNumberInput()
+                    })                
+                .catch(error => {
+                    const errorMessage = error.response?.data?.error
+                    console.log(errorMessage)
+                    notificationHandler(errorMessage, 5, 'error')
+                })
+        }
     }
 
     const checkForSamePerson = (name = newName) => {

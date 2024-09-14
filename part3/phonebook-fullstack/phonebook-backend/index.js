@@ -78,32 +78,33 @@ app.post('/api/persons/', (req, res, next)=>{
     const { name, number } = req.body
 
     if (!name) {
-        return res.status(400).json({ 
+        res.status(400).json({ 
             error: 'Add a name please' 
         })
     }
 
     if (!name && !number) {
-        return res.status(400).json({ 
+        res.status(400).json({ 
             error: 'content missing' 
         })
     }
- 
+
     const person = new Persons({
         name: name,
         number: number,
       })
 
-    person.save()
+    Persons.create(person)
         .then(savedPerson => {
-            res.json(savedPerson)
+            if (savedPerson) {
+                res.json(savedPerson)
+            }
         })
-        .catch(error => 
-            // next(error)
-            res.status(201).json({ 
-                error: error.message 
-            })
-    )
+        .catch(error => {
+            next(error)
+            console.log(error.message)
+        })
+
 
     function detectSameName (inputName) {
         const person = persons.find(p =>  
@@ -115,18 +116,6 @@ app.post('/api/persons/', (req, res, next)=>{
             return false
         }
     }
-
-    // if (!name || !number) {
-    //     return res.status(400).json({ 
-    //         error: 'content missing' 
-    //     })
-    // }
-
-    // if (detectSameName(name)) {
-    //     return res.status(400).json({ 
-    //         error: 'name must be unique'
-    //     })
-    // }
 
     persons = [...persons, person]
     res.status(201).json(`${name} has been added to the phonebook`);
@@ -160,14 +149,19 @@ app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message);
-    console.error(error.name); 
+    // console.error(error.name); 
 
     if (error.name === 'ValidationError') {
-        console.log(error.messag);
-        console.log(response.status(400).json({ error: error.message }))
         return response.status(400).json({ error: error.message })
     }
 
+    if (error.name === 'CastError') {
+        return response.status(400).json({ error: 'Malformatted ID' });
+    }
+
+    if (error.statusCode) {
+        return response.status(error.statusCode).json({ error: error.message });
+    }
     next(error);
 };
 

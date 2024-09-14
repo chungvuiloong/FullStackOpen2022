@@ -76,6 +76,12 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons/', (req, res, next)=>{
     const { name, number } = req.body
+
+    if (!name || !number) {
+        return res.status(400).json({ 
+            error: 'content missing' 
+        })
+    }
  
     const person = new Persons({
         name: name,
@@ -99,17 +105,17 @@ app.post('/api/persons/', (req, res, next)=>{
         }
     }
 
-    if (!name || !number) {
-        return res.status(400).json({ 
-            error: 'content missing' 
-        })
-    }
+    // if (!name || !number) {
+    //     return res.status(400).json({ 
+    //         error: 'content missing' 
+    //     })
+    // }
 
-    if (detectSameName(name)) {
-        return res.status(400).json({ 
-            error: 'name must be unique'
-        })
-    }
+    // if (detectSameName(name)) {
+    //     return res.status(400).json({ 
+    //         error: 'name must be unique'
+    //     })
+    // }
 
     persons = [...persons, person]
     res.status(201).json(`${name} has been added to the phonebook`);
@@ -124,15 +130,15 @@ app.put('/api/persons/:id', (req, res, next) => {
       }
  
     Persons.findByIdAndUpdate(req.params.id, updatedPerson, { new: true, runValidators: true })
-    .then(updatedPerson => {
-        if (updatedPerson) {
-            res.json(updatedPerson);
-        } else {
-            res.status(404).end();
-        }
-    })
+        .then(updatedPerson => {
+            if (updatedPerson) {
+                res.json(updatedPerson);
+            } else {
+                res.status(404).end();
+            }
+        })
       .catch(error => next(error))
-  })
+})
   
 
 const unknownEndpoint = (request, response) => {
@@ -146,8 +152,11 @@ const errorHandler = (error, request, response, next) => {
     console.error(error.name); 
 
     if (error.name === 'ValidationError') {
+        console.log(error.messag);
+        console.log(response.status(400).json({ error: error.message }))
         return response.status(400).json({ error: error.message })
     }
+
     next(error);
 };
 

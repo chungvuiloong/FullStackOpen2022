@@ -43,7 +43,7 @@ let notes = [
       important: body.important || false,
     })
   
-    note.save().then(savedNote => {
+    Note.create(note).then(savedNote => {
       response.json(savedNote)
     })
   })

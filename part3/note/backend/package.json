@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "remove": "rm -rf ../frontend/dist && rm -rf ../backend/dist",
+    "build:ui": "npm run remove && cd ../frontend/ && npm run build && cp -r dist ../backend",
+    "deploy": "npm run build:ui && git add . && git push"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

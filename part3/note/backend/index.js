@@ -3,6 +3,8 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const Note = require('./model/note')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -94,6 +96,6 @@ let notes = [
   app.use(errorHandler)
   
   const PORT = process.env.PORT
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  app.listen(config.PORT, () => {
+    logger.info(`Server running on port ${config.PORT}`)
   })

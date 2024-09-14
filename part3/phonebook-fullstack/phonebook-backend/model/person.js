@@ -12,9 +12,25 @@ const personsSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
+        validate: {
+            validator: function(v) {
+                return /^[a-zA-Z]+$/.test(v);
+            //   return /\d{3}-\d{3}-\d{4}/.test(v);
+            },
+            message: props => `${props.value} is not a valid name!`
+        },
         required: true
     },
-    number: String,
+    number: {
+        type:String,
+        minLength: 8,
+        validate: {
+            validator: function(v) {
+                return /^\d{2,3}-\d{6,8}$/.test(v)
+            },
+            message: props => `${props.value} is not a valid name!`
+        },
+    }
 })
 
 personsSchema.set('toJSON', {

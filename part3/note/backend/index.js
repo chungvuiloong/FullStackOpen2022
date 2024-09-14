@@ -57,7 +57,6 @@ let notes = [
   app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
     notes = notes.filter(note => note.id !== id)
-  
     response.status(204).end()
   })
 
@@ -66,6 +65,16 @@ let notes = [
   }
   
   app.use(unknownEndpoint)
+  const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    } 
+  
+    next(error)
+  }
+  app.use(errorHandler)
   
   const PORT = process.env.PORT
   app.listen(PORT, () => {

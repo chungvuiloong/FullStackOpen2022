@@ -6,18 +6,17 @@ const Note = require('./model/note')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
-
+// const requestLogger = (request, response, next) => {
+//   console.log('Method:', request.method)
+//   console.log('Path:  ', request.path)
+//   console.log('Body:  ', request.body)
+//   console.log('---')
+//   next()
+// }
 
 app.use(cors())
 app.use(express.json())
-app.use(requestLogger)
+// app.use(requestLogger)
 app.use(express.static('dist'))
 
 let notes = [
@@ -96,6 +95,6 @@ let notes = [
   app.use(errorHandler)
   
   const PORT = process.env.PORT
-  app.listen(config.PORT, () => {
-    logger.info(`Server running on port ${config.PORT}`)
-  })
+//   app.listen(config.PORT, () => {
+//     logger.info(`Server running on port ${config.PORT}`)
+//   })

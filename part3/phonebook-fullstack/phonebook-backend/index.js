@@ -77,7 +77,13 @@ app.delete('/api/persons/:id', (req, res, next) => {
 app.post('/api/persons/', (req, res, next)=>{
     const { name, number } = req.body
 
-    if (!name || !number) {
+    if (!name) {
+        return res.status(400).json({ 
+            error: 'Add a name please' 
+        })
+    }
+
+    if (!name && !number) {
         return res.status(400).json({ 
             error: 'content missing' 
         })
@@ -92,7 +98,12 @@ app.post('/api/persons/', (req, res, next)=>{
         .then(savedPerson => {
             res.json(savedPerson)
         })
-        .catch(error => next(error))
+        .catch(error => 
+            // next(error)
+            res.status(201).json({ 
+                error: error.message 
+            })
+    )
 
     function detectSameName (inputName) {
         const person = persons.find(p =>  

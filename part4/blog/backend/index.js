@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let blogs = [
     {
         id: "1",
@@ -31,6 +33,23 @@ let blogs = [
   
   app.get('/api/blogs', (request, response) => {
     response.json(blogs)
+  })
+  
+  app.get('/api/blogs/:id', (request, response) => {
+    const id = request.params.id
+    const blog = blogs.find(blog => blog.id === id)
+      
+    if (blog) {
+        response.json(blog)
+    } else {
+        response.status(404).end()
+    }
+  })
+
+  app.delete('/api/blogs/:id', (request, response) => {
+    const id = request.params.id
+    blogs = blogs.filter(blog => blog.id !== id)
+    response.status(204).end()
   })
 
 const PORT = 3003

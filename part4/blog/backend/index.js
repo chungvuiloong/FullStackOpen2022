@@ -4,27 +4,7 @@ const app = express()
 app.use(express.json())
 
 let blogs = [
-    {
-        id: "1",
-        title: "Learning HTML",
-        author: "Jane Doe",
-        url: "http://example.com/html",
-        likes: 25
-    },
-    {
-        id: "2",
-        title: "Understanding JavaScript",
-        author: "John Smith",
-        url: "http://example.com/js",
-        likes: 45
-    },
-    {
-        id: "3",
-        title: "HTTP Methods: GET vs POST",
-        author: "Alice Johnson",
-        url: "http://example.com/http-methods",
-        likes: 60
-    }
+
   ]
   
   app.get('/', (request, response) => {
@@ -50,6 +30,26 @@ let blogs = [
     const id = request.params.id
     blogs = blogs.filter(blog => blog.id !== id)
     response.status(204).end()
+  })
+
+  app.post('/api/blogs', (request, response) => {
+    const { title, author, url, likes  }  = request.body
+
+    if (!request.body) {
+      return response.status(400).json({ 
+        error: 'content missing' 
+      })
+    } 
+
+    const blog = {
+        id: 4,
+        title: title,
+        author: author,
+        url: url,
+        likes: likes
+    }
+
+    response.json(blog)
   })
 
 const PORT = 3003

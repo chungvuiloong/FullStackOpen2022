@@ -1,4 +1,5 @@
-const http = require('http')
+const express = require('express')
+const app = express()
 
 let blogs = [
     {
@@ -24,10 +25,13 @@ let blogs = [
     }
   ]
   
-const app = http.createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify(blogs))
-})
+  app.get('/', (request, response) => {
+    response.send('<h1>Hello World!</h1>')
+  })
+  
+  app.get('/api/blogs', (request, response) => {
+    response.json(blogs)
+  })
 
 const PORT = 3003
 app.listen(PORT, () => {

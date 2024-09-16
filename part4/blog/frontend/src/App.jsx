@@ -8,8 +8,9 @@ function App() {
 
   useEffect(() => {
     blogService.getAll()
-      .then(initialNotes => {
-        setBlogs(initialNotes)
+      .then(response => {
+        console.log('promise fulfilled')
+        setBlogs(response.data)
       })
   }, [blogs])
 

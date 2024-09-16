@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 app.use(express.json())
+const cors = require('cors')
+
+app.use(cors())
+// app.use(express.static('dist'))
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -12,8 +16,21 @@ const requestLogger = (request, response, next) => {
   
 
 let blogs = [
-
-  ]
+    {
+        id: "1",
+        title: "Learning HTML",
+        author: "Jane Doe",
+        url: "http://example.com/html",
+        likes: 25
+      },
+      {
+        id: "2",
+        title: "Understanding JavaScript",
+        author: "John Smith",
+        url: "http://example.com/js",
+        likes: 45
+      },
+]
   
   app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
@@ -67,7 +84,7 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 app.use(requestLogger)
-const PORT = 3003
+const PORT = process.env.PORT || 3003
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

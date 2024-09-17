@@ -20,7 +20,7 @@ const add_blog = (event) => {
     blogService
         .create(newBlog)
         .then(response => {
-            setBlogs(blogs.concat(response.data))
+            setBlogs([...blogs, response.data])
             setNewBlog({ title: '', author: '', url: '' });
         })
   }

@@ -13,23 +13,21 @@ const requestLogger = (request, response, next) => {
     console.log('---')
     next()
   }
-  
-
 let blogs = [
     {
-        id: "1",
+        id: 1,
         title: "Learning HTML",
         author: "Jane Doe",
         url: "http://example.com/html",
-        likes: 25
-      },
-      {
-        id: "2",
-        title: "Understanding JavaScript",
-        author: "John Smith",
-        url: "http://example.com/js",
-        likes: 45
-      },
+        likes: 0
+    },
+    {
+    id: 2,
+    title: "Understanding JavaScript",
+    author: "John Smith",
+    url: "http://example.com/js",
+    likes: 0
+    },
 ]
   
   app.get('/', (request, response) => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import blogService from './services/blog'
 import './App.css'
 
@@ -8,17 +7,18 @@ function App() {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
 
   useEffect(() => {
-    blogService.getAll()
-      .then(response => {
-        // console.log('promise fulfilled')
-        setBlogs(response.data)
-      })
+    blogService
+        .getAll()
+        .then(response => {
+            setBlogs(response.data)
+        })
   }, [newBlog])
 
 const add_blog = (event) => {
     event.preventDefault()
-    axios
-        .post('http://localhost:3003/api/blogs', newBlog)
+
+    blogService
+        .create(newBlog)
         .then(response => {
             setBlogs(blogs.concat(response.data))
             setNewBlog({ title: '', author: '', url: '' });

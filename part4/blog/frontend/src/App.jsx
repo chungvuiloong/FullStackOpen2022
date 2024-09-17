@@ -5,7 +5,7 @@ import './App.css'
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
 
   useEffect(() => {
     blogService.getAll()
@@ -13,32 +13,45 @@ function App() {
         // console.log('promise fulfilled')
         setBlogs(response.data)
       })
-  }, [blogs])
+  }, [newBlog])
 
-  const add_blog = (event) => {
+const add_blog = (event) => {
     event.preventDefault()
-    const noteObject = {
-        name: "Author Test",
-        title: "title",
-        author: "author",
-        url: "url",
-        likes: 9999
-        }
-
     axios
-        .post('http://localhost:3003/api/blogs', noteObject)
+        .post('http://localhost:3003/api/blogs', newBlog)
         .then(response => {
-        setBlogs(blogs.concat(response.data))
-        setNewBlog('')
+            setBlogs(blogs.concat(response.data))
+            setNewBlog({ title: '', author: '', url: '' });
         })
   }
+
+const handle_input_change = (event) => {  
+    event.preventDefault()
+    setNewBlog({...newBlog, [event.target.name]: event.target.value})
+    console.log(newBlog);
+}
+
+console.log(blogs);
+
 
   return (
     <>
         <h1>Blog</h1>
         <form onSubmit={add_blog}>
             <input
-            // value={newBlog}
+                name='title'
+                placeholder='title'
+                onChange={handle_input_change}
+            />
+            <input
+                name='author'
+                placeholder='author'
+                onChange={handle_input_change}
+            />
+            <input
+                name='url'
+                placeholder='url'
+                onChange={handle_input_change}
             />
             <button type="submit">save</button>
         </form>

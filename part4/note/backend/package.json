@@ -1,23 +1,30 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "backend for blog",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "remove": "rm -rf ../frontend/dist && rm -rf ../backend/dist",
     "build:ui": "npm run remove && cd ../frontend/ && npm run build && cp -r dist ../backend",
-    "deploy": "npm run build:ui && git add . && git push"
+    "deploy": "npm run build:ui && git add . && git push",
+    "lint": "eslint ."
   },
-  "author": "MrJay / Jere",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.0"
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.6.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "@eslint/js": "^9.10.0",
+    "@stylistic/eslint-plugin-js": "^2.8.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "nodemon": "^2.0.20"
   }
 }

@@ -33,7 +33,6 @@ const handle_input_change = (event) => {
 
 console.log(blogs);
 
-
   return (
     <>
         <h1>Blog</h1>

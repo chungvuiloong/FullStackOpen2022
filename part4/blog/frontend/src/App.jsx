@@ -16,7 +16,6 @@ function App() {
 
 const add_blog = (event) => {
     event.preventDefault()
-
     blogService
         .create(newBlog)
         .then(response => {

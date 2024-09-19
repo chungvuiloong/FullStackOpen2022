@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "remove": "rm -rf ../frontend/dist && rm -rf ../backend/dist",
     "build:ui": "npm run remove && cd ../frontend/ && npm run build && cp -r dist ../backend",
     "deploy": "npm run build:ui && git add . && git push"

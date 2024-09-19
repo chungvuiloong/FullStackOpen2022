@@ -54,6 +54,13 @@ console.log(blogs);
             />
             <button type="submit">save</button>
         </form>
+        <div>  
+            {blogs.map(blog => (
+                <div key={blog.id}>
+                    {blog.title} {blog.author} {blog.url}
+                </div>
+            ))}
+        </div>
     </>
   )
 }

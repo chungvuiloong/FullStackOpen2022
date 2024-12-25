@@ -77,11 +77,11 @@ describe('favourite blog', () => {
 
     test('title, author, likes', () => {
         const result = listHelper.favouriteBlog(blogs)
+        console.log(result);
         assert.deepStrictEqual(result, { 
             title: 'Canonical string reduction', 
             author: 'Edsger W. Dijkstra', 
             likes: 12 
         })
     })
-    
 })

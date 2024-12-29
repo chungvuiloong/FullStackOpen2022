@@ -4,7 +4,7 @@ const PORT = process.env.PORT
 const password = process.env.MONGODB_PASSWORD
 const cluster = process.env.MONGODB_CLUSTER
 const db = process.env.MONGODB_DB
-const MONGODB_URI =
+const MONGODB_URI = process.env.NODE_ENV === 'test' ? MONGODB_TEST :
   `mongodb+srv://fullstack:${password}@${cluster}.uibsh.mongodb.net/${db}?retryWrites=true&w=majority`
 
 module.exports = {

@@ -4,9 +4,9 @@
   "description": "backend for blog",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "node --test",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env  NODE_ENV=test node --test",
     "remove": "rm -rf ../frontend/dist && rm -rf ../backend/dist",
     "build:ui": "npm run remove && cd ../frontend/ && npm run build && cp -r dist ../backend",
     "deploy": "npm run build:ui && git add . && git push"

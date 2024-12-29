@@ -163,3 +163,57 @@ describe('Most blogs', () => {
         })
     })
 })
+
+describe('Blogs with most likes', () => {
+    const blogs = [
+        {
+            _id: '5a422aa71b54a676234d17f8',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+            likes: 5,
+            __v: 0
+        },
+        {
+            _id: '5a422bb81b54a676234d17f9',
+            title: 'Canonical String Reduction',
+            author: 'Edsger W. Dijkstra',
+            url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+            likes: 17,
+            __v: 0
+        },
+        {
+            _id: '5a422ee21b54a676234d17fc',
+            title: 'Test-Driven Development: By Example',
+            author: 'Robert C. Martin',
+            url: 'https://tddbyexample.com/',
+            likes: 15,
+            __v: 0
+        },
+        {
+            _id: '5a422ff31b54a676234d17fd',
+            title: 'Refactoring: Improving the Design of Existing Code',
+            author: 'Martin Fowler',
+            url: 'https://refactoring.com/',
+            likes: 10,
+            __v: 0
+        },
+        {
+            _id: '5a4230a41b54a676234d17fe',
+            title: 'Patterns of Enterprise Application Architecture',
+            author: 'Martin Fowler',
+            url: 'https://martinfowler.com/books/eaa.html',
+            likes: 8,
+            __v: 0
+        }
+    ];
+    
+    test('Blogs with most likes', () => {
+        const result = listHelper.mostLikes(blogs)
+        console.log(result);
+        assert.deepStrictEqual(result, { 
+            author: "Edsger W. Dijkstra",
+            likes: 17
+        })
+    })
+})

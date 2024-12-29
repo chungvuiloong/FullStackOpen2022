@@ -1,6 +1,18 @@
-const { test, describe } = require('node:test')
+const { after, test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
+const supertest = require('supertest')
+const app = require('../app')
+
+const api = supertest(app)
+
+test('New test', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
+
 
 test('dummy returns one', () => {
     const blogs = []

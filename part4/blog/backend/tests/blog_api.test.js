@@ -51,6 +51,25 @@ test('Blogs return as json and have id property', async () => {
 //     assert.strictEqual(newBlog.url, lastBlog.url);
 //   })
 
+  test('Check for missing "likes" property', async () => {
+    const response = await api.get('/api/blogs')
+        .expect(200)
+
+    response.body.forEach(async (blog) => {
+        const updatedBlog = {
+            title: blog.title,
+            author: blog.author,
+            url: blog.url,
+            likes: blog.likes || 0
+        }
+
+        if (!blog['likes']) {
+            assert.strictEqual(updatedBlog.likes, 0);
+            const updateResponse = await api.put('/api/blogs').send(updatedBlog)
+            return updateResponse
+        }
+    })
+  })
   
 
 after(async () => {

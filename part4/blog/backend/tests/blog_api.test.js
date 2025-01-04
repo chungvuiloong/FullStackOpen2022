@@ -72,14 +72,13 @@ test('Check for missing "likes" property', async () => {
   })
 
 test('Creating new blogs & verify missing title or url properties', async () => {
-    const response = await api.get('/api/blogs')
     const newBlog = {
         author: 'Test Author',
     }
 
-    if (newBlog['title'] || newBlog['url']) {
-        assert.strictEqual(response.status, 400);
-    }
+    const response = await api.post('/api/blogs').send(newBlog).expect(400);
+    return response
+
 })
   
 

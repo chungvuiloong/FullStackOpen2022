@@ -30,9 +30,14 @@ blogsRouter.post('/', async (request, response, next) => {
     })
 
     try {
-        const savedBlog = await blog.save()
-        response.status(201).json(savedBlog)
-    } catch(exception) {
+        if (!blog.title || !blog.url) {
+            return response.status(400).json({ error: 'title or url missing' })
+        }
+        if (blog.likes && blog.title && blog.url && blog.author) {
+            const savedBlog = await blog.save()
+            return response.status(201).json(savedBlog)
+        }
+    } catch (exception) {
         next(exception)
     }
 })

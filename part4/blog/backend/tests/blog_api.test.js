@@ -51,7 +51,7 @@ test('Blogs return as json and have id property', async () => {
 //     assert.strictEqual(newBlog.url, lastBlog.url);
 //   })
 
-  test('Check for missing "likes" property', async () => {
+test('Check for missing "likes" property', async () => {
     const response = await api.get('/api/blogs')
         .expect(200)
 
@@ -70,6 +70,17 @@ test('Blogs return as json and have id property', async () => {
         }
     })
   })
+
+test('Creating new blogs & verify missing title or url properties', async () => {
+    const response = await api.get('/api/blogs')
+    const newBlog = {
+        author: 'Test Author',
+    }
+
+    if (newBlog['title'] || newBlog['url']) {
+        assert.strictEqual(response.status, 400);
+    }
+})
   
 
 after(async () => {

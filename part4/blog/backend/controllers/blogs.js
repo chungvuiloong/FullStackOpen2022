@@ -33,12 +33,12 @@ blogsRouter.post('/', async (request, response, next) => {
         if (!blog.title || !blog.url) {
             return response.status(400).json({ error: 'title or url missing' })
         }
-        // if (blog.likes && blog.title && blog.url && blog.author) {
-        //     const savedBlog = await blog.save()
-        //     return response.status(201).json(savedBlog)
-        // }
-        const savedBlog = await blog.save()
-        return response.status(201).json(savedBlog)
+        try {
+            const savedBlog = await blog.save();
+            return response.status(201).json(savedBlog);
+        } catch (error) {
+            return response.status(500).json({ error: 'Failed to save blog', details: error.message });
+        }
     } catch (exception) {
         next(exception)
     }

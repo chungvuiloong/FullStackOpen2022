@@ -55,8 +55,12 @@ console.log(blogs);
         </form>
         <div>  
             {blogs.map(blog => (
-                <div key={blog.id}>
-                    {blog.title} {blog.author} {blog.url}
+                <div key={blog.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <div>{blog.title} {blog.author} {blog.url}</div>
+                    <div>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
                 </div>
             ))}
         </div>

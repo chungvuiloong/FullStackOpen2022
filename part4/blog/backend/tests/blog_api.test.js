@@ -80,6 +80,29 @@ test('Creating new blogs & verify missing title or url properties', async () => 
     return response
 
 })
+
+test('Deleting a single blog post', async () => {
+    const deleteBlog = {
+        title: 'Blog to be deleted',
+        author: 'Author',
+        url: 'http://delete.com',
+    }
+
+    const createdBlogResponse = await api
+        .post('/api/blogs')
+        .send(deleteBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const createdBlog = createdBlogResponse.body
+    await api
+        .delete(`/api/blogs/${createdBlog.id}`)
+        .expect(204)
+
+    const responseAfterDeletion = await api.get('/api/blogs')
+    const blogIds = responseAfterDeletion.body.map(blog => blog.id)
+    assert(!blogIds.includes(createdBlog.id))
+})
   
 
 after(async () => {

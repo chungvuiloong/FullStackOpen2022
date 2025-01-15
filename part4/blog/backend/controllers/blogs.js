@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../model/blog')
+const { ObjectId } = require('mongoose').Types
 
 blogsRouter.get('/', async (request, response) => {
     await Blog.find({}).then(blogs => {
@@ -15,6 +16,14 @@ blogsRouter.get('/:id', (request, response, next) => {
             } else {
                 response.status(404).end()
             }
+        })
+        .catch(error => next(error))
+})
+
+blogsRouter.delete('/:id', (request, response, next) => {
+    Blog.deleteOne({"_id": new ObjectId(request.params.id)})
+        .then(() => {
+            response.status(204).end()
         })
         .catch(error => next(error))
 })

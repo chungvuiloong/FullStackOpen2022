@@ -24,13 +24,18 @@ const add_blog = (event) => {
         })
   }
 
+  const delete_blog = (id) => {
+    blogService
+        .deleteBlog(id)
+        .then(() => {
+            setBlogs(blogs.filter(blog => blog.id !== id))
+        })
+    }
+
 const handle_input_change = (event) => {  
     event.preventDefault()
     setNewBlog({...newBlog, [event.target.name]: event.target.value})
-    console.log(newBlog);
 }
-
-console.log(blogs);
 
   return (
     <>
@@ -59,7 +64,7 @@ console.log(blogs);
                     <div>{blog.title} {blog.author} {blog.url}</div>
                     <div>
                         <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={() => delete_blog(blog.id)} >Delete</button>
                     </div>
                 </div>
             ))}

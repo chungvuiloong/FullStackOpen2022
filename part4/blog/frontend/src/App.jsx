@@ -63,6 +63,7 @@ const handle_input_change = (event) => {
                 <div key={blog.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <div>{blog.title} {blog.author} {blog.url}</div>
                     <div>
+                        <button>Like</button>
                         <button>Edit</button>
                         <button onClick={() => delete_blog(blog.id)} >Delete</button>
                     </div>

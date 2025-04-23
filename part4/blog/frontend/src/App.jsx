@@ -4,7 +4,7 @@ import './App.css'
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 });
 
   useEffect(() => {
     blogService
@@ -20,7 +20,7 @@ const add_blog = (event) => {
         .create(newBlog)
         .then(response => {
             setBlogs([...blogs, response.data])
-            setNewBlog({ title: '', author: '', url: '' });
+            setNewBlog({ title: '', author: '', url: '', likes: 0 });
         })
   }
 
@@ -31,6 +31,16 @@ const add_blog = (event) => {
             setBlogs(blogs.filter(blog => blog.id !== id))
         })
     }
+
+const add_like = (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    const updatedBlog = { ...blog, likes: blog.likes + 1 }
+    blogService
+        .update(id, updatedBlog)
+        .then(response => {
+            setBlogs(blogs.map(blog => (blog.id !== id ? blog : response.data)))
+        })
+  }
 
 const handle_input_change = (event) => {  
     event.preventDefault()
@@ -65,7 +75,7 @@ const handle_input_change = (event) => {
                         {blog.title} | {blog.author} | {blog.url} | {blog.likes}
                     </div>
                     <div>
-                        <button>Like</button>
+                        <button onClick={() => add_like(blog.id)}>Like</button>
                         <button>Edit</button>
                         <button onClick={() => delete_blog(blog.id)} >Delete</button>
                     </div>

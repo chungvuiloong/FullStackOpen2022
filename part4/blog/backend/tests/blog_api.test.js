@@ -103,7 +103,37 @@ test('Deleting a single blog post', async () => {
     const blogIds = responseAfterDeletion.body.map(blog => blog.id)
     assert(!blogIds.includes(createdBlog.id))
 })
-  
+
+test('Updating likes of a blog post', async () => {
+    const blogToUpdate = {
+        title: 'Blog to update likes',
+        author: 'Author',
+        url: 'http://update-likes.com',
+        likes: 5,
+    };
+
+    const createdBlogResponse = await api
+        .post('/api/blogs')
+        .send(blogToUpdate)
+        .expect(201)
+        .expect('Content-Type', /application\/json/);
+
+    const createdBlog = createdBlogResponse.body;
+
+    const updatedLikes = createdBlog.likes + 1;
+    const updatedBlogData = { likes: updatedLikes };
+
+    await api
+        .put(`/api/blogs/${createdBlog.id}`)
+        .send(updatedBlogData)
+        .expect(200)
+        .expect('Content-Type', /application\/json/);
+
+    const responseAfterUpdate = await api.get(`/api/blogs/${createdBlog.id}`);
+    const updatedBlog = responseAfterUpdate.body;
+
+    expect(updatedBlog.likes).toBe(updatedLikes);
+});
 
 after(async () => {
     await mongoose.connection.close()

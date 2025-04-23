@@ -50,4 +50,23 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 })
 
+blogsRouter.put('/:id', async (request, response, next) => {
+    const { id } = request.params;
+    
+    try {
+        const blog = await Blog.findById(id);
+        
+        if (!blog) {
+            return response.status(404).json({ error: 'Blog not found' });
+        }
+        blog.likes += 1;
+        const updatedBlog = await blog.save();
+        response.json(updatedBlog);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+
 module.exports = blogsRouter

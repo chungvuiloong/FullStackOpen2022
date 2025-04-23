@@ -61,7 +61,9 @@ const handle_input_change = (event) => {
         <div>  
             {blogs.map(blog => (
                 <div key={blog.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <div>{blog.title} {blog.author} {blog.url}</div>
+                    <div>
+                        {blog.title} | {blog.author} | {blog.url} | {blog.likes}
+                    </div>
                     <div>
                         <button>Like</button>
                         <button>Edit</button>

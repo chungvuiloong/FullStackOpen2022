@@ -50,7 +50,7 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 })
 
-blogsRouter.put('/:id', async (request, response, next) => {
+blogsRouter.patch('/:id', async (request, response, next) => {
     const { id } = request.params;
     
     try {
@@ -61,11 +61,35 @@ blogsRouter.put('/:id', async (request, response, next) => {
         }
         blog.likes += 1;
         const updatedBlog = await blog.save();
+
         response.json(updatedBlog);
     } catch (error) {
         next(error);
     }
 });
+
+blogsRouter.put('/:id', async (request, response, next) => {
+    const { id } = request.params;
+    const { title, author, url, likes } = request.body;
+
+    try {
+        const blog = await Blog.findById(id);
+        
+        if (!blog) {
+            return response.status(404).json({ error: 'Blog not found' });
+        }
+
+        blog.title = title || blog.title;
+        blog.author = author || blog.author;
+        blog.url = url || blog.url;
+        blog.likes = likes !== undefined ? likes : blog.likes;
+        const updatedBlog = await blog.save();
+        response.json(updatedBlog);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 
 

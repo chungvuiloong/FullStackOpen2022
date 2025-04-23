@@ -5,6 +5,7 @@ import './App.css'
 function App() {
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 });
+  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     blogService
@@ -16,7 +17,19 @@ function App() {
 
 const add_blog = (event) => {
     event.preventDefault()
-    blogService
+
+    if (editId) {
+        const blog = blogs.find(blog => blog.id === editId)
+        const updatedBlog = { ...blog, ...newBlog }
+        return blogService
+            .update(editId, updatedBlog)
+            .then(response => {
+                setBlogs(blogs.map(blog => (blog.id !== editId ? blog : response.data)))
+                setNewBlog({ title: '', author: '', url: '', likes: 0 });
+        })
+      }
+
+    return blogService
         .create(newBlog)
         .then(response => {
             setBlogs([...blogs, response.data])
@@ -31,6 +44,14 @@ const add_blog = (event) => {
             setBlogs(blogs.filter(blog => blog.id !== id))
         })
     }
+
+const edit_blog = (id) => {
+    setEditId(id);
+    const blog = blogs.find(blog => blog.id === id);
+    if (blog) {
+        setNewBlog(blog);
+    }
+}
 
 const add_like = (id) => {
     const blog = blogs.find(blog => blog.id === id)
@@ -54,16 +75,19 @@ const handle_input_change = (event) => {
             <input
                 name='title'
                 placeholder='title'
+                value={newBlog.title}
                 onChange={handle_input_change}
             />
             <input
                 name='author'
                 placeholder='author'
+                value={newBlog.author}
                 onChange={handle_input_change}
             />
             <input
                 name='url'
                 placeholder='url'
+                value={newBlog.url}
                 onChange={handle_input_change}
             />
             <button type="submit">save</button>
@@ -76,7 +100,7 @@ const handle_input_change = (event) => {
                     </div>
                     <div>
                         <button onClick={() => add_like(blog.id)}>Like</button>
-                        <button>Edit</button>
+                        <button onClick={() => edit_blog(blog.id)}>Edit</button>
                         <button onClick={() => delete_blog(blog.id)} >Delete</button>
                     </div>
                 </div>

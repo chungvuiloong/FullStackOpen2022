@@ -17,7 +17,6 @@ function App() {
 
 const add_blog = (event) => {
     event.preventDefault()
-
     if (editId) {
         const blog = blogs.find(blog => blog.id === editId)
         const updatedBlog = { ...blog, ...newBlog }

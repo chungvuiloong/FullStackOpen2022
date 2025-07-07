@@ -1,6 +1,16 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../model/blog')
+const User = require('../model/user')
+const jwt = require('jsonwebtoken')
 const { ObjectId } = require('mongoose').Types
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+        return authorization.replace('Bearer ', '')
+    }
+    return null
+}
 
 blogsRouter.get('/', async (request, response) => {
     await Blog.find({}).then(blogs => {
@@ -30,19 +40,33 @@ blogsRouter.delete('/:id', (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' })
+    }
+    
+    const user = await User.findById(decodedToken.id)
+    
+    if (!user) {
+        return response.status(400).json({ error: 'User not found' })
+    }
 
     const blog = new Blog({
         title: body.title,
         author: body.author,
         url: body.url,
-        likes: body.likes,
+        likes: body.likes || 0,
+        user: user._id
     })
 
     try {
-        if (!blog.title || !blog.url || !blog.author) {
+        if (!blog.title || !blog.url) {
             return response.status(400).json({ error: 'title or url missing' })
         }
         const savedBlog = await blog.save();
+        user.blogs = user.blogs.concat(savedBlog._id)
+        await user.save()
         return response.status(201).json(savedBlog);
 
     } catch (exception) {

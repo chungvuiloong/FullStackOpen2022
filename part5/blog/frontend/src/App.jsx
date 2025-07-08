@@ -11,14 +11,25 @@ const App = () => {
     )  
   }, [])
 
-  return (
+return (
     <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+        <form aria-label="login form">
+            <div>
+                <label htmlFor="username">Username</label>
+                <input id="username" name="username" type="text" autoComplete="username" />
+            </div>
+            <div>
+                <label htmlFor="password">Password</label>
+                <input id="password" name="password" type="password" autoComplete="current-password" />
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <h2>blogs</h2>
+        {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+        )}
     </div>
-  )
+)
 }
 
 export default App

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 
 const App = () => {
     const [blogs, setBlogs] = useState([
@@ -12,6 +13,7 @@ const App = () => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
+    const [message, setMessage] = useState(null)
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -30,7 +32,10 @@ const App = () => {
             setUsername('')
             setPassword('')
         } else {
-            console.log('Wrong credentials')
+            setMessage('Wrong username or password')
+            setTimeout(() => {
+                setMessage(null)
+            }, 5000)
         }
     }
 
@@ -51,10 +56,15 @@ const App = () => {
         setTitle('')
         setAuthor('')
         setUrl('')
+        setMessage(`A new blog "${title}" by ${author} added`)
+        setTimeout(() => {
+            setMessage(null)
+        }, 3000)
     }
 
     return (
         <div>
+            <Notification message={message} />
             <div>
                 <h2>Log in to application</h2>
                 <form onSubmit={handleLogin} aria-label="login form">

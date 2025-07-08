@@ -1,5 +1,5 @@
-import AnecdoteForm from './components/AnecdoteForm'
-import AnecdoteList from './components/AnecdoteList'
+import AnecdoteForm from './components/AnecdoteForm.jsx'
+import AnecdoteList from './components/AnecdoteList.jsx'
 
 const App = () => {
   return (

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
     const [blogs, setBlogs] = useState([
@@ -11,9 +12,6 @@ const App = () => {
     const [user, setUser] = useState(null)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
     const [message, setMessage] = useState(null)
     const blogFormRef = useRef()
 
@@ -46,19 +44,15 @@ const App = () => {
         setUser(null)
     }
 
-    const addBlog = (event) => {
-        event.preventDefault()
+    const addBlog = (blogObject) => {
         const newBlog = {
             id: blogs.length + 1,
-            title,
-            author,
-            url
+            title: blogObject.title,
+            author: blogObject.author,
+            url: blogObject.url
         }
         setBlogs(blogs.concat(newBlog))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-        setMessage(`A new blog "${title}" by ${author} added`)
+        setMessage(`A new blog "${blogObject.title}" by ${blogObject.author} added`)
         setTimeout(() => {
             setMessage(null)
         }, 3000)
@@ -70,6 +64,7 @@ const App = () => {
             <Notification message={message} />
             <div>
                 <h2>Log in to application</h2>
+                { !user &&
                 <form onSubmit={handleLogin} aria-label="login form">
                     <div>
                         <label htmlFor="username">Username</label>
@@ -95,6 +90,7 @@ const App = () => {
                     </div>
                     <button type="submit">Login</button>
                 </form>
+                }
             </div>
             {user && (
                 <div>
@@ -104,34 +100,7 @@ const App = () => {
                     </p>
                     
                     <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-                        <h3>create new</h3>
-                        <form onSubmit={addBlog}>
-                            <div>
-                                title:
-                                <input
-                                    type="text"
-                                    value={title}
-                                    onChange={({ target }) => setTitle(target.value)}
-                                />
-                            </div>
-                            <div>
-                                author:
-                                <input
-                                    type="text"
-                                    value={author}
-                                    onChange={({ target }) => setAuthor(target.value)}
-                                />
-                            </div>
-                            <div>
-                                url:
-                                <input
-                                    type="text"
-                                    value={url}
-                                    onChange={({ target }) => setUrl(target.value)}
-                                />
-                            </div>
-                            <button type="submit">create</button>
-                        </form>
+                        <BlogForm createBlog={addBlog} />
                     </Togglable>
                 </div>
             )}

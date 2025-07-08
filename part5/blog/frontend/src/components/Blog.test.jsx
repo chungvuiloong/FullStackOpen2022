@@ -60,4 +60,26 @@ describe('Blog component', () => {
     expect(urlElement).toBeInTheDocument()
     expect(likesElement).toBeInTheDocument()
   })
+
+  test('calls event handler twice when like button is clicked twice', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Blog
+        blog={blog}
+        updateBlog={mockUpdateBlog}
+        deleteBlog={mockDeleteBlog}
+        user={mockUser}
+      />
+    )
+
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockUpdateBlog).toHaveBeenCalledTimes(2)
+  })
 })

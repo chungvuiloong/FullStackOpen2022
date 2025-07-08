@@ -3,11 +3,26 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import blogService from './services/blogs'
 
 const App = () => {
     const [blogs, setBlogs] = useState([
-        { id: 1, title: 'Example Blog 1', author: 'Author 1' },
-        { id: 2, title: 'Example Blog 2', author: 'Author 2' }
+        { 
+            id: 1, 
+            title: 'Example Blog 1', 
+            author: 'Author 1', 
+            url: 'http://example1.com',
+            likes: 0,
+            user: { id: '1', name: 'Test User' }
+        },
+        { 
+            id: 2, 
+            title: 'Example Blog 2', 
+            author: 'Author 2',
+            url: 'http://example2.com',
+            likes: 5,
+            user: { id: '1', name: 'Test User' }
+        }
     ])
     const [user, setUser] = useState(null)
     const [username, setUsername] = useState('')
@@ -49,7 +64,9 @@ const App = () => {
             id: blogs.length + 1,
             title: blogObject.title,
             author: blogObject.author,
-            url: blogObject.url
+            url: blogObject.url,
+            likes: 0,
+            user: { id: user.id || '1', name: user.name }
         }
         setBlogs(blogs.concat(newBlog))
         setMessage(`A new blog "${blogObject.title}" by ${blogObject.author} added`)
@@ -57,6 +74,23 @@ const App = () => {
             setMessage(null)
         }, 3000)
         blogFormRef.current.toggleVisibility()
+    }
+
+    const updateBlog = async (id, updatedBlog) => {
+        try {
+            // For now, update locally since we're using mock data
+            setBlogs(blogs.map(blog => 
+                blog.id !== id ? blog : { ...blog, likes: updatedBlog.likes }
+            ))
+            // Uncomment when connected to real backend:
+            // const returnedBlog = await blogService.update(id, updatedBlog)
+            // setBlogs(blogs.map(blog => blog.id !== id ? blog : { ...blog, likes: returnedBlog.likes }))
+        } catch (exception) {
+            setMessage('Error updating blog')
+            setTimeout(() => {
+                setMessage(null)
+            }, 5000)
+        }
     }
 
     return (
@@ -106,7 +140,7 @@ const App = () => {
             )}
             <h2>blogs</h2>
             {user && blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
             )}
         </div>
     )

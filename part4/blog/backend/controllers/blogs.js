@@ -2,6 +2,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../model/blog')
 const User = require('../model/user')
 const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
 const { ObjectId } = require('mongoose').Types
 
 blogsRouter.get('/', async (request, response) => {
@@ -21,17 +22,9 @@ blogsRouter.get('/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
     try {
-        if (!request.token) {
-            return response.status(401).json({ error: 'token missing' })
-        }
-
-        const decodedToken = jwt.verify(request.token, process.env.SECRET)
-        
-        if (!decodedToken.id) {
-            return response.status(401).json({ error: 'token invalid' })
-        }
+        const user = request.user
 
         const blog = await Blog.findById(request.params.id)
         
@@ -39,8 +32,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
             return response.status(404).json({ error: 'blog not found' })
         }
 
-        // Check if the user is the creator of the blog
-        if (blog.user.toString() !== decodedToken.id.toString()) {
+        if (blog.user.toString() !== user._id.toString()) {
             return response.status(403).json({ error: 'only the creator can delete this blog' })
         }
 
@@ -51,25 +43,11 @@ blogsRouter.delete('/:id', async (request, response, next) => {
     }
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response, next) => {
     const body = request.body
 
     try {
-        if (!request.token) {
-            return response.status(401).json({ error: 'token missing' })
-        }
-        
-        const decodedToken = jwt.verify(request.token, process.env.SECRET)
-        
-        if (!decodedToken.id) {
-            return response.status(401).json({ error: 'token invalid' })
-        }
-        
-        const user = await User.findById(decodedToken.id)
-        
-        if (!user) {
-            return response.status(400).json({ error: 'User not found' })
-        }
+        const user = request.user
 
         const blog = new Blog({
             title: body.title,

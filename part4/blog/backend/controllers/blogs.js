@@ -1,21 +1,21 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../model/blog')
 const User = require('../model/user')
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken') // TODO: Revisit in exercise 4.19
 const { ObjectId } = require('mongoose').Types
 
-const getTokenFrom = request => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '')
-    }
-    return null
-}
+// TODO: Revisit in exercise 4.19 - Restore proper JWT authentication
+// const getTokenFrom = request => {
+//     const authorization = request.get('authorization')
+//     if (authorization && authorization.startsWith('Bearer ')) {
+//         return authorization.replace('Bearer ', '')
+//     }
+//     return null
+// }
 
 blogsRouter.get('/', async (request, response) => {
-    await Blog.find({}).then(blogs => {
-        response.json(blogs)
-    })
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
+    response.json(blogs)
 })
 
 blogsRouter.get('/:id', (request, response, next) => {
@@ -40,23 +40,12 @@ blogsRouter.delete('/:id', (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
-    const token = getTokenFrom(request)
-    
-    if (!token) {
-        return response.status(401).json({ error: 'token missing' })
-    }
-    
+
     try {
-        const decodedToken = jwt.verify(token, process.env.SECRET)
-        
-        if (!decodedToken.id) {
-            return response.status(401).json({ error: 'token invalid' })
-        }
-        
-        const user = await User.findById(decodedToken.id)
+        const user = await User.findOne({ name: { $exists: true } }) || await User.findOne({})
         
         if (!user) {
-            return response.status(400).json({ error: 'User not found' })
+            return response.status(400).json({ error: 'No users found in database' })
         }
 
         const blog = new Blog({

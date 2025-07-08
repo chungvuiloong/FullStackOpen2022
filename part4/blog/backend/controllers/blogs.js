@@ -49,6 +49,11 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
     try {
         const user = request.user
 
+        if (!body.title || !body.url || 
+            body.title.trim() === '' || body.url.trim() === '') {
+            return response.status(400).json({ error: 'title or url missing' })
+        }
+
         const blog = new Blog({
             title: body.title,
             author: body.author,
@@ -56,10 +61,6 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
             likes: body.likes || 0,
             user: user._id
         })
-
-        if (!blog.title || !blog.url) {
-            return response.status(400).json({ error: 'title or url missing' })
-        }
         
         const savedBlog = await blog.save();
         user.blogs = user.blogs.concat(savedBlog._id)

@@ -12,7 +12,6 @@ const App = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
-        // Dummy login logic
         if (username && password) {
             setUser({ name: username })
             setUsername('')

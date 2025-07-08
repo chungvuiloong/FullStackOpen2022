@@ -13,7 +13,7 @@ const App = () => {
             author: 'Author 1', 
             url: 'http://example1.com',
             likes: 0,
-            user: { id: '1', name: 'Test User' }
+            user: { name: 'testuser' }
         },
         { 
             id: 2, 
@@ -21,7 +21,7 @@ const App = () => {
             author: 'Author 2',
             url: 'http://example2.com',
             likes: 5,
-            user: { id: '1', name: 'Test User' }
+            user: { name: 'otheruser' }
         }
     ])
     const [user, setUser] = useState(null)
@@ -78,15 +78,26 @@ const App = () => {
 
     const updateBlog = async (id, updatedBlog) => {
         try {
-            // For now, update locally since we're using mock data
             setBlogs(blogs.map(blog => 
                 blog.id !== id ? blog : { ...blog, likes: updatedBlog.likes }
             ))
-            // Uncomment when connected to real backend:
-            // const returnedBlog = await blogService.update(id, updatedBlog)
-            // setBlogs(blogs.map(blog => blog.id !== id ? blog : { ...blog, likes: returnedBlog.likes }))
         } catch (exception) {
             setMessage('Error updating blog')
+            setTimeout(() => {
+                setMessage(null)
+            }, 5000)
+        }
+    }
+
+    const deleteBlog = async (id) => {
+        try {
+            setBlogs(blogs.filter(blog => blog.id !== id))
+            setMessage('Blog deleted')
+            setTimeout(() => {
+                setMessage(null)
+            }, 3000)
+        } catch (exception) {
+            setMessage('Error deleting blog')
             setTimeout(() => {
                 setMessage(null)
             }, 5000)
@@ -142,7 +153,7 @@ const App = () => {
             {user && blogs
                 .sort((a, b) => (b.likes || 0) - (a.likes || 0))
                 .map(blog =>
-                    <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+                    <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user} />
                 )}
         </div>
     )

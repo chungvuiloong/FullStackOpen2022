@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('Blog component', () => {
@@ -36,5 +37,27 @@ describe('Blog component', () => {
     
     expect(urlElement).not.toBeInTheDocument()
     expect(likesElement).not.toBeInTheDocument()
+  })
+
+  test('shows URL and likes when view button is clicked', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Blog
+        blog={blog}
+        updateBlog={mockUpdateBlog}
+        deleteBlog={mockDeleteBlog}
+        user={mockUser}
+      />
+    )
+
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+
+    const urlElement = screen.getByText('http://test.com')
+    const likesElement = screen.getByText('likes 5', { exact: false })
+    
+    expect(urlElement).toBeInTheDocument()
+    expect(likesElement).toBeInTheDocument()
   })
 })

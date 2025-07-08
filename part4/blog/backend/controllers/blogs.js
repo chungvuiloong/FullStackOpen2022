@@ -4,14 +4,6 @@ const User = require('../model/user')
 const jwt = require('jsonwebtoken')
 const { ObjectId } = require('mongoose').Types
 
-const getTokenFrom = request => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '')
-    }
-    return null
-}
-
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     response.json(blogs)
@@ -41,13 +33,11 @@ blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
 
     try {
-        const token = getTokenFrom(request)
-        
-        if (!token) {
+        if (!request.token) {
             return response.status(401).json({ error: 'token missing' })
         }
         
-        const decodedToken = jwt.verify(token, process.env.SECRET)
+        const decodedToken = jwt.verify(request.token, process.env.SECRET)
         
         if (!decodedToken.id) {
             return response.status(401).json({ error: 'token invalid' })

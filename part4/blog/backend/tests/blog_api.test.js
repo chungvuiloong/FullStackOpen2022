@@ -2,8 +2,32 @@ const { test, after, beforeEach } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
 const app = require('../app')
 const api = supertest(app)
+const Blog = require('../model/blog')
+const User = require('../model/user')
+
+let authToken = null
+
+beforeEach(async () => {
+    await User.deleteMany({})
+    await Blog.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('testpassword', 10)
+    const user = new User({ 
+        username: 'testuser', 
+        name: 'Test User',
+        passwordHash 
+    })
+    await user.save()
+
+    const loginResponse = await api
+        .post('/api/login')
+        .send({ username: 'testuser', password: 'testpassword' })
+
+    authToken = loginResponse.body.token
+})
 
 test('Blogs return as json', async () => {
     await api
@@ -76,9 +100,12 @@ test('Creating new blogs & verify missing title or url properties', async () => 
         author: 'Test Author',
     }
 
-    const response = await api.post('/api/blogs').send(newBlog).expect(400);
+    const response = await api
+        .post('/api/blogs')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(newBlog)
+        .expect(400);
     return response
-
 })
 
 test('Deleting a single blog post', async () => {
@@ -90,6 +117,7 @@ test('Deleting a single blog post', async () => {
 
     const createdBlogResponse = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${authToken}`)
         .send(deleteBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -97,6 +125,7 @@ test('Deleting a single blog post', async () => {
     const createdBlog = createdBlogResponse.body
     await api
         .delete(`/api/blogs/${createdBlog.id}`)
+        .set('Authorization', `Bearer ${authToken}`)
         .expect(204)
 
     const responseAfterDeletion = await api.get('/api/blogs')
@@ -114,6 +143,7 @@ test('Updating likes of a blog post', async () => {
 
     const createdBlogResponse = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${authToken}`)
         .send(blogToUpdate)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -132,7 +162,40 @@ test('Updating likes of a blog post', async () => {
     const responseAfterUpdate = await api.get(`/api/blogs/${createdBlog.id}`);
     const updatedBlog = responseAfterUpdate.body;
 
-    expect(updatedBlog.likes).toBe(updatedLikes);
+    assert.strictEqual(updatedBlog.likes, updatedLikes);
+});
+
+test('Adding a blog fails with 401 Unauthorized if token is not provided', async () => {
+    const newBlog = {
+        title: 'Test Blog Without Token',
+        author: 'Test Author',
+        url: 'http://test-without-token.com',
+    };
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/);
+
+    assert(response.body.error.includes('token missing'));
+});
+
+test('Adding a blog fails with 401 Unauthorized if token is invalid', async () => {
+    const newBlog = {
+        title: 'Test Blog With Invalid Token',
+        author: 'Test Author',
+        url: 'http://test-invalid-token.com',
+    };
+
+    const response = await api
+        .post('/api/blogs')
+        .set('Authorization', 'Bearer invalidtoken')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/);
+
+    assert(response.body.error.includes('invalid token'));
 });
 
 after(async () => {

@@ -120,5 +120,37 @@ describe('Blog app', () => {
       await page.getByText('Blog by First User First Author').getByRole('button', { name: 'view' }).click()
       await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
     })
+
+    test('blogs are arranged in order according to likes', async ({ page }) => {
+      await page.getByText('create new blog').click()
+      await page.getByLabel('title').fill('First Blog')
+      await page.getByLabel('author').fill('Author')
+      await page.getByLabel('url').fill('http://first.com')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      await page.getByText('create new blog').click()
+      await page.getByLabel('title').fill('Second Blog')
+      await page.getByLabel('author').fill('Author')
+      await page.getByLabel('url').fill('http://second.com')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      await page.getByText('create new blog').click()
+      await page.getByLabel('title').fill('Third Blog')
+      await page.getByLabel('author').fill('Author')
+      await page.getByLabel('url').fill('http://third.com')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      await page.getByText('Second Blog Author').getByRole('button', { name: 'view' }).click()
+      await page.getByText('Second Blog Author').locator('..').getByRole('button', { name: 'like' }).click()
+      await page.getByText('Second Blog Author').locator('..').getByRole('button', { name: 'like' }).click()
+
+      await page.getByText('Third Blog Author').getByRole('button', { name: 'view' }).click()
+      await page.getByText('Third Blog Author').locator('..').getByRole('button', { name: 'like' }).click()
+
+      const blogs = await page.locator('.blog').all()
+      await expect(blogs[0]).toContainText('Second Blog')
+      await expect(blogs[1]).toContainText('Third Blog')
+      await expect(blogs[2]).toContainText('First Blog')
+    })
   })
 })

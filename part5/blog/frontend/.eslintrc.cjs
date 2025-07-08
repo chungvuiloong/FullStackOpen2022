@@ -16,6 +16,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'react/prop-types': false
+    'react/prop-types': 'error',
+    'no-unused-vars': 'error',
+    'no-console': 'warn',
+    'eqeqeq': 'error',
+    'no-trailing-spaces': 'error',
+    'object-curly-spacing': ['error', 'always'],
+    'arrow-spacing': ['error', { 'before': true, 'after': true }]
   },
 }

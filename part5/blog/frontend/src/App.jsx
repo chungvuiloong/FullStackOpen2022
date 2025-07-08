@@ -3,21 +3,20 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
-import blogService from './services/blogs'
 
 const App = () => {
     const [blogs, setBlogs] = useState([
-        { 
-            id: 1, 
-            title: 'Example Blog 1', 
-            author: 'Author 1', 
+        {
+            id: 1,
+            title: 'Example Blog 1',
+            author: 'Author 1',
             url: 'http://example1.com',
             likes: 0,
             user: { name: 'testuser' }
         },
-        { 
-            id: 2, 
-            title: 'Example Blog 2', 
+        {
+            id: 2,
+            title: 'Example Blog 2',
             author: 'Author 2',
             url: 'http://example2.com',
             likes: 5,
@@ -78,7 +77,7 @@ const App = () => {
 
     const updateBlog = async (id, updatedBlog) => {
         try {
-            setBlogs(blogs.map(blog => 
+            setBlogs(blogs.map(blog =>
                 blog.id !== id ? blog : { ...blog, likes: updatedBlog.likes }
             ))
         } catch (exception) {
@@ -140,10 +139,10 @@ const App = () => {
             {user && (
                 <div>
                     <p>
-                        {user.name} logged-in 
+                        {user.name} logged-in
                         <button onClick={handleLogout}>logout</button>
                     </p>
-                    
+
                     <Togglable buttonLabel="create new blog" ref={blogFormRef}>
                         <BlogForm createBlog={addBlog} />
                     </Togglable>

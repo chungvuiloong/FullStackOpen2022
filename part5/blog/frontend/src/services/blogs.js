@@ -33,10 +33,10 @@ const deleteBlog = (id) => {
   return request.then(response => response.data)
 }
 
-export default { 
-  getAll, 
-  create, 
-  update, 
+export default {
+  getAll,
+  create,
+  update,
   deleteBlog,
   setToken
 }

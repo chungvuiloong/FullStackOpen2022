@@ -36,9 +36,9 @@ const Blog = ({ blog, updateBlog }) => {
       </div>
       {visible && (
         <div>
-          <div>{blog.url}</div>
-          <div>likes {blog.likes || 0} <button onClick={handleLike}>like</button></div>
-          <div>{blog.author}</div>
+          <div>{blog?.url}</div>
+          <div>likes {blog?.likes || 0} <button onClick={handleLike}>like</button></div>
+          <div>{blog?.author}</div>
         </div>
       )}
     </div>

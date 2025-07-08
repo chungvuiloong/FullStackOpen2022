@@ -36,17 +36,17 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const showDelete = user && blog.user && (user.name === blog.user.name || user.id === blog.user.id)
 
   return (
-    <div style={blogStyle}>
-      <div>
-        {blog.title} {blog.author}
+    <div style={blogStyle} className="blog">
+      <div className="blog-summary">
+        <span className="blog-title">{blog.title}</span> <span className="blog-author">{blog.author}</span>
         <button onClick={toggleVisibility}>
           {visible ? 'hide' : 'view'}
         </button>
       </div>
       {visible && (
-        <div>
-          <div>{blog?.url}</div>
-          <div>likes {blog?.likes || 0} <button onClick={handleLike}>like</button></div>
+        <div className="blog-details">
+          <div className="blog-url">{blog?.url}</div>
+          <div className="blog-likes">likes {blog?.likes || 0} <button onClick={handleLike}>like</button></div>
           <div>{blog?.author}</div>
           {showDelete && <button onClick={handleDelete}>remove</button>}
         </div>

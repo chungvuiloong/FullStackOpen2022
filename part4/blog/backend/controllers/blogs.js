@@ -42,6 +42,18 @@ blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
 
     try {
+        // TODO: Revisit in exercise 4.19 - Restore JWT authentication
+        // const token = getTokenFrom(request)
+        // if (!token) {
+        //     return response.status(401).json({ error: 'token missing' })
+        // }
+        // const decodedToken = jwt.verify(token, process.env.SECRET)
+        // if (!decodedToken.id) {
+        //     return response.status(401).json({ error: 'token invalid' })
+        // }
+        // const user = await User.findById(decodedToken.id)
+
+        // For now (exercise 4.17): Find a user with a name field, fallback to any user
         const user = await User.findOne({ name: { $exists: true } }) || await User.findOne({})
         
         if (!user) {

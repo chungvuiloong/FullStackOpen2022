@@ -26,4 +26,25 @@ describe('BlogForm component', () => {
       url: 'http://testurl.com'
     })
   })
+
+  test('form fields are cleared after successful submission', async () => {
+    const user = userEvent.setup()
+    const mockCreateBlog = vi.fn()
+
+    render(<BlogForm createBlog={mockCreateBlog} />)
+
+    const titleInput = screen.getByRole('textbox', { name: /title/i })
+    const authorInput = screen.getByRole('textbox', { name: /author/i })
+    const urlInput = screen.getByRole('textbox', { name: /url/i })
+    const createButton = screen.getByText('create')
+
+    await user.type(titleInput, 'Another Test Blog')
+    await user.type(authorInput, 'Another Author')
+    await user.type(urlInput, 'http://anotherurl.com')
+    await user.click(createButton)
+
+    expect(titleInput.value).toBe('')
+    expect(authorInput.value).toBe('')
+    expect(urlInput.value).toBe('')
+  })
 })

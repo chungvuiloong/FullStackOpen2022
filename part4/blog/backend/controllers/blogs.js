@@ -1,17 +1,16 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../model/blog')
 const User = require('../model/user')
-// const jwt = require('jsonwebtoken') // TODO: Revisit in exercise 4.19
+const jwt = require('jsonwebtoken')
 const { ObjectId } = require('mongoose').Types
 
-// TODO: Revisit in exercise 4.19 - Restore proper JWT authentication
-// const getTokenFrom = request => {
-//     const authorization = request.get('authorization')
-//     if (authorization && authorization.startsWith('Bearer ')) {
-//         return authorization.replace('Bearer ', '')
-//     }
-//     return null
-// }
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+        return authorization.replace('Bearer ', '')
+    }
+    return null
+}
 
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -42,22 +41,22 @@ blogsRouter.post('/', async (request, response, next) => {
     const body = request.body
 
     try {
-        // TODO: Revisit in exercise 4.19 - Restore JWT authentication
-        // const token = getTokenFrom(request)
-        // if (!token) {
-        //     return response.status(401).json({ error: 'token missing' })
-        // }
-        // const decodedToken = jwt.verify(token, process.env.SECRET)
-        // if (!decodedToken.id) {
-        //     return response.status(401).json({ error: 'token invalid' })
-        // }
-        // const user = await User.findById(decodedToken.id)
-
-        // For now (exercise 4.17): Find a user with a name field, fallback to any user
-        const user = await User.findOne({ name: { $exists: true } }) || await User.findOne({})
+        const token = getTokenFrom(request)
+        
+        if (!token) {
+            return response.status(401).json({ error: 'token missing' })
+        }
+        
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        
+        if (!decodedToken.id) {
+            return response.status(401).json({ error: 'token invalid' })
+        }
+        
+        const user = await User.findById(decodedToken.id)
         
         if (!user) {
-            return response.status(400).json({ error: 'No users found in database' })
+            return response.status(400).json({ error: 'User not found' })
         }
 
         const blog = new Blog({
